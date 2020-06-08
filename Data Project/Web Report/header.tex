@@ -1,0 +1,16 @@
+\usepackage{titling}
+\usepackage{multirow}
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \includegraphics[width=200mm]{logos.png}\\[\bigskipamount]
+}
+\posttitle{\end{center}}

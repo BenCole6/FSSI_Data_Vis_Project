@@ -1,0 +1,120 @@
+---
+title: "Untitled"
+author: "Ben Cole"
+date: "03/06/2020"
+output: html_document
+---
+
+```{r}
+
+temp <- data.frame(revenue = rbeta(1000, 2, 100)*1000,
+                   category = sample(letters[1:16], 1000, replace = TRUE),
+                   names = sample(VCOSS_ACNC_16$charity_name, 1000))
+
+View(temp)
+
+temp <- temp[order(temp$category), ]
+
+packing <- circleProgressiveLayout(temp$revenue,
+                                   sizetype = "area")
+
+packing <- packing[order(packing$x), ]
+
+id <- select(temp,
+             names, category, revenue)
+
+packing <- cbind(id, packing)
+
+gg_packing <- circleLayoutVertices(packing,
+                                   npoints = 0,
+                                   xysizecols = c("x", "y", "radius"),
+                                   idcol = "names")
+
+gg_packing <- cbind(gg_packing,
+                    select(packing,
+                           -x, -y))
+
+gg_packing_plot <- ggplot(gg_packing) +
+  geom_point(aes(x = x,
+                 y = y,
+                 fill = factor(category),
+                 size = radius,
+                 text = paste(sep = "\n",
+                              str_clean_wrap(names, 28),
+                              paste(dollar(revenue), "total revenue"))),
+             colour = "grey60") +
+  scale_size_continuous(range = c(1, 6)) +
+  theme_void() +
+  coord_equal()
+
+ggplotly(gg_packing_plot,
+         tooltip = "text")
+
+```
+
+
+```{r}
+
+VCOSS_ACNC_16_ordered <- VCOSS_ACNC_16[order(VCOSS_ACNC_16$main_activity_2016), ]
+
+VCOSS_16_packing <- circleProgressiveLayout(VCOSS_ACNC_16_ordered$total_revenue_2016,
+                                            sizetype = "area")
+
+VCOSS_16_packing <- cbind(VCOSS_16_packing,
+                          select(VCOSS_ACNC_16_ordered,
+                                 charity_name, main_activity_2016, total_revenue_2016))
+
+VCOSS_16_packing <- VCOSS_16_packing[order(VCOSS_16_packing$x), ]
+
+# VCOSS_16_names <- select(VCOSS_ACNC_16_ordered,
+#                          charity_name, main_activity_2016, total_revenue_2016)
+# 
+# 
+# VCOSS_16_packing <- cbind(VCOSS_16_names,
+#                           VCOSS_16_packing)
+
+VCOSS_16_layout <- circleLayoutVertices(layout = VCOSS_16_packing,
+                                        npoints = 1,
+                                        xysizecols = c("x", "y", "radius"),
+                                        idcol = "charity_name")
+
+VCOSS_16_layout <- left_join(VCOSS_16_layout,
+                             select(VCOSS_16_packing,
+                                    -x, -y),
+                             by = c("id" = "charity_name"))
+
+gg_packing_16 <- ggplot(VCOSS_16_layout) +
+  geom_point(aes(x = x,
+                 y = y,
+                 size = radius,
+                 fill = factor(main_activity_2016),
+                 text = paste(sep = "\n",
+                              id,
+                              main_activity_2016,
+                              paste(dollar(total_revenue_2016), "total revenue"))),
+             colour = "grey66",
+             alpha = 0.8) +
+  scale_size_continuous(range = c(2, 11)) +
+  theme_minimal() +
+  coord_equal()
+
+ggplotly(gg_packing_16,
+         tooltip = "text") %>% 
+  layout(legend = list(itemclick = "toggleothers",
+                       itemdoubleclick = "toggle"))
+
+ggplot(VCOSS_16_layout) +
+  geom_point(aes(x = total_revenue_2016,
+                 y = radius)) +
+  theme_minimal()
+
+```
+
+
+```{r}
+
+hpackedbubble(cat = VCOSS_ACNC_16$main_activity_2016,
+              name = VCOSS_ACNC_16$charity_name,
+              value = VCOSS_ACNC_16$total_revenue_2016)
+
+```

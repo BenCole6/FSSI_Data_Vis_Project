@@ -1,0 +1,306 @@
+---
+title: "plots"
+author: "Author"
+date: "2020/5/5"
+output:
+  html_document: default
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
+```
+
+```{r}
+library(forcats)
+library(ggplot2)
+library(plotly)
+library(ggplotlyExtra)
+library(dplyr)
+library(reshape2)
+library(scales)
+library(readxl)
+ACNC_2017 <- read_excel("VCOSS - 2017 ACNC Data.xlsx")
+ACNC_2016 <- read_excel("VCOSS - 2016 ACNC Data.xlsx")
+
+View(ACNC_2017)
+View(ACNC_2016)
+# check missing values
+all(apply(as.matrix(ACNC_2017), 2, function(x) sum(is.na(x)))==0)
+all(apply(as.matrix(ACNC_2016), 2, function(x) sum(is.na(x)))==0) # one missing value
+ACNC_2016 <- na.omit(ACNC_2016)
+ACNC_2017<-na.omit(ACNC_2017)
+
+```
+
+## Staff
+### No. of staff by Staff type
+```{r}
+
+colnames(ACNC_2017) <- c('abn','name','state','size','conducted_activity','main_activity','staff_part','staff_casual','staff_full','staff_volunteers','operates_vic',
+'govern_grants','donation_bequests','other_revenue','total_revenue','other_income','total_gross_income','employee_expenses','interest_expenses','use_in_Aus','use_outside_Aus','other_expenses','total_expenses','net_surplus_deficit')
+colnames(ACNC_2016)<- c('abn','name','state','size','conducted_activity','main_activity','operates_vic','staff_full','staff_part','staff_casual','staff_volunteers',
+'govern_grants','donation_bequests','other_revenue','total_revenue','other_income','total_gross_income','employee_expenses','interest_expenses','use_in_Aus','use_outside_Aus','other_expenses','total_expenses','net_surplus_deficit')
+View(ACNC_2017)
+View(ACNC_2016)
+dat1 <- ACNC_2017[,c('size','main_activity','staff_part','staff_casual','staff_full')]
+View(dat1)
+# delete rows where the number of full time staff is not integer
+dat1 <- dat1[-which(dat1[,'staff_full']%%1!=0),] 
+ 
+str(dat1)
+dat1$staff_full <- as.numeric(dat1$staff_full)
+dat1$staff_casual <- as.numeric(dat1$staff_casual)
+dat1$staff_part <- as.numeric(dat1$staff_part)
+
+
+sum(dat1[,3:5]) # total workers is 189896
+
+dat1$size <- tolower(dat1$size)
+staff2017 <- data.frame(
+  size=unlist(apply(as.matrix(dat1), 1, function(x) rep(x[1],sum(as.numeric(x[3:5]))))),
+  type=unlist(apply(as.matrix(dat1), 1, function(x) rep(x[2],sum(as.numeric(x[3:5]))))),
+  staff=unlist(apply(as.matrix(dat1), 1, function(x) c(rep('part-time',x[3]),rep('casual',x[4]),rep('full-time',x[5]))))
+)
+View(staff2017)
+
+
+dat2 <- ACNC_2016[,c('size','main_activity','staff_part','staff_casual','staff_full')]
+unique(dat2$size)
+View(dat2)
+dat2$staff_part <- as.numeric(dat2$staff_part)
+print(sum(dat2[,3:5]))  # total workers 161023
+
+staff2016 <- data.frame(
+  size=unlist(apply(as.matrix(dat2), 1, function(x) rep(x[1],sum(as.numeric(x[3:5]))))),
+  type=unlist(apply(as.matrix(dat2), 1, function(x) rep(x[2],sum(as.numeric(x[3:5]))))),
+  staff=unlist(apply(as.matrix(dat2), 1, function(x) c(rep('part-time',x[3]),rep('casual',x[4]),rep('full-time',x[5]))))
+)
+gg_staff17 <- ggplot(staff2017) +
+  geom_bar(aes(x = fct_rev(fct_infreq(staff)),
+               label = fct_rev(fct_infreq(staff)),
+               fill = staff,
+               text = paste(sep = "\n",
+                            label,
+                            paste("Count:", comma(..count..)))),
+           show.legend = F) +
+  scale_x_discrete("Staff type") +
+  scale_y_continuous("Number of Staffs") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(staff2017$staff)))),
+                    guide = F) +
+  ggtitle("Number of Staffs by Type in 2017") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+
+##### 2016
+gg_staff16 <- ggplot(staff2016) +
+  geom_bar(aes(x = fct_rev(fct_infreq(staff)),
+               label = fct_rev(fct_infreq(staff)),
+               fill = staff,
+               text = paste(sep = "\n",
+                            label,
+                            paste("Count:", comma(..count..)))),
+           show.legend = F) +
+  scale_x_discrete("Staff type") +
+  scale_y_continuous("Number of Staffs") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(staff2016$staff)))),
+                    guide = F) +
+  ggtitle("Number of Staffs by Type in 2016") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+ggplotly(gg_staff17,     tooltip = "text") %>% 
+  layout(showlegend = F)
+ggplotly(gg_staff16,
+                            tooltip = "text") %>% 
+  layout(showlegend = F)
+
+
+```
+
+### No. of staff by organization type
+
+```{r}
+gg_staff_type17 <- ggplot(staff2017) +
+  geom_bar(aes(x = fct_rev(fct_infreq(type)),
+               label = fct_rev(fct_infreq(type)),
+               fill = staff,
+               text = paste(sep = "\n",
+                            label,
+                            fill,
+                            paste("Count:", comma(..count..)))),
+           show.legend = F) +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Number of Staffs") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(staff2017$staff)))),
+                    guide = F) +
+  ggtitle("Number of Staffs by Type and Charity type in 2017") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+
+gg_staff_type16 <- ggplot(staff2016) +
+  geom_bar(aes(x = fct_rev(fct_infreq(type)),
+               label = fct_rev(fct_infreq(type)),
+               fill = staff,
+               text = paste(sep = "\n",
+                            label,
+                            fill,
+                            paste("Count:", comma(..count..)))),
+           show.legend = F) +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Number of Staffs") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(staff2016$staff)))),
+                    guide = F) +
+  ggtitle("Number of Staffs by Type and Charity type in 2016") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+ggplotly(gg_staff_type16,
+                            tooltip = "text") %>% 
+  layout(showlegend = T)
+ggplotly(gg_staff_type17,
+                            tooltip = "text") %>% 
+  layout(showlegend = T)
+
+
+
+```
+
+### No. of staff by organization size 
+
+```{r}
+gg_staff_size17 <- ggplot(staff2017) +
+  geom_bar(aes(x = fct_rev(fct_infreq(size)),
+               label = fct_rev(fct_infreq(size)),
+               fill = staff,
+               text = paste(sep = "\n",
+                            label,
+                            fill,
+                            paste("Count:", comma(..count..)),
+                            paste('Percent:',round((..count..)/sum(..count..),3)*100, "%")),
+           show.legend = F,stat ='identity')) +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Number of Staffs") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(staff2017$staff)))),
+                    guide = F) +
+  ggtitle("Number of Staffs by Type and Charity size in 2017") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+### 2016
+gg_staff_size16 <- ggplot(staff2016) +
+  geom_bar(aes(x = fct_rev(fct_infreq(size)),
+               label = fct_rev(fct_infreq(size)),
+               fill = staff,
+               text = paste(sep = "\n",
+                            label,
+                            fill,
+                            paste("Count:", comma(..count..)),
+                            paste('Percent:',round((..count..)/sum(..count..),3)*100, "%")),
+           show.legend = F,stat ='identity')) +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Number of Staffs") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(staff2016$staff)))),
+                    guide = F) +
+  ggtitle("Number of Staffs by Type and Charity size in 2016") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+ggplotly(gg_staff_size17,
+                            tooltip = "text") %>% 
+  layout(showlegend = T)
+
+ggplotly(gg_staff_size16,
+                            tooltip = "text") %>% 
+  layout(showlegend = T)
+
+```
+
+
+## No. of volunteers by organization type
+```{r Q2}
+dat5 <- ACNC_2016[,c('main_activity','staff_volunteers')]
+sum(dat5$staff_volunteers)  # Numbers of Voluteer in 2016 was 408711
+t4 <- data.frame(
+  volunteer=unlist(apply(as.matrix(dat5[,1:2]), 1, function(x) rep(x[1],as.numeric(x[2]))))
+  )
+
+gg_vol16 <- ggplot(t4) +
+  geom_bar(aes(x = fct_rev(fct_infreq(volunteer)),
+               label = fct_rev(fct_infreq(volunteer)),
+               fill = volunteer,
+               text = paste(sep = "\n",
+                            label,
+                            paste("Count:", comma(..count..)))),
+           show.legend = F) +
+  scale_x_discrete("Charity type") +
+  scale_y_continuous("Number of Volunteers") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(t4$volunteer)))),
+                    guide = F) +
+  ggtitle("Number of Volunteers by Charity Type in 2016") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+dat6 <- ACNC_2017[,c('main_activity','staff_volunteers')]
+str(dat6)
+dat6$staff_volunteers <- as.numeric(dat6$staff_volunteers)
+
+sum(dat6$staff_volunteers)  # Numbers of Voluteer in 2017 was 361145
+t5 <- data.frame(
+  volunteer=unlist(apply(as.matrix(dat6[,1:2]), 1, function(x) rep(x[1],as.numeric(x[2]))))
+  )
+gg_vol17 <- ggplot(t5) +
+  geom_bar(aes(x = fct_rev(fct_infreq(volunteer)),
+               label = fct_rev(fct_infreq(volunteer)),
+               fill = volunteer,
+               text = paste(sep = "\n",
+                            label,
+                            paste("Count:", comma(..count..)))),
+           show.legend = F) +
+  scale_x_discrete("Charity type") +
+  scale_y_continuous("Number of Volunteers") +
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                                                                 length.out = length(unique(t5$volunteer)))),
+                    guide = F) +
+  ggtitle("Number of Volunteers by Charity Type in 2017") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+ggplotly(gg_vol17,
+                            tooltip = "text") %>% 
+  layout(showlegend = F)
+
+ggplotly(gg_vol16,
+                            tooltip = "text") %>% 
+  layout(showlegend = F)
+
+
+```
+
+
+

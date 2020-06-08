@@ -1,0 +1,263 @@
+---
+title: "plots"
+author: "April"
+date: "2020/5/5"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
+```
+
+```{r}
+library(forcats)
+library(readr)
+library(ggplot2)
+library(plotly)
+library(ggplotlyExtra)
+library(dplyr)
+library(reshape2)
+library(scales)
+library(readxl)
+ACNC_2017 <- read_excel("VCOSS Data/VCOSS - 2017 ACNC Data.xlsx")
+ACNC_2016 <- read_excel("VCOSS Data/VCOSS - 2016 ACNC Data.xlsx")
+
+# check missing values
+all(apply(as.matrix(ACNC_2017), 2, function(x) sum(is.na(x)))==0)
+all(apply(as.matrix(ACNC_2016), 2, function(x) sum(is.na(x)))==0) # one missing value
+ACNC_2016 <- na.omit(ACNC_2016)
+colnames(ACNC_2017) <- c('abn','name','state','size','conducted_activity','main_activity','staff_part','staff_casual','staff_full','staff_volunteers','operates_vic',
+'govern_grants','donation_bequests','other_revenue','total_revenue','other_income','total_gross_income','employee_expenses','interest_expenses','use_in_Aus','use_outside_Aus','other_expenses','total_expenses','net_surplus_deficit')
+colnames(ACNC_2016)<- c('abn','name','state','size','conducted_activity','main_activity','staff_part','staff_casual','staff_full','staff_volunteers','operates_vic',
+'govern_grants','donation_bequests','other_revenue','total_revenue','other_income','total_gross_income','employee_expenses','interest_expenses','use_in_Aus','use_outside_Aus','other_expenses','total_expenses','net_surplus_deficit')
+```
+
+
+
+## 
+###  income source by its type
+
+```{r Q3: income source}
+dat3 <- ACNC_2016[,c('size','main_activity','govern_grants','donation_bequests','other_revenue','other_income','total_gross_income')]
+
+# income source
+t1 <- colSums(as.matrix(dat3[,3:6]))/sum(dat3[,3:6])
+df1 <- data.frame(sources=names(t1),num=as.numeric(t1))
+df1 <- df1[order(df1$num),]
+label_value <- paste( round(df1$num/sum(df1$num) * 100, 1), '%', sep = '')
+label_value
+
+blank_theme <- theme_minimal()+
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    panel.border = element_blank(),
+    panel.grid=element_blank(),
+    axis.ticks = element_blank(),
+    plot.title=element_text(size=14, face="bold")
+  )
+
+gg_income16 <- ggplot(data=df1, aes(x=1:4,fill= sources,y=num,
+                                   text = paste(sep = "\n",
+                                                sources,
+                                                paste('Percent:',round(num,3)*100, "%"))))+
+  geom_bar(stat="identity",width=0.5,position='stack',size=5)+
+  # coord_polar("y", start=0)+
+  scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9","#FFCCFF"))+
+  geom_text(aes(label = label_value), size=3.2, position=position_stack(vjust = 0.5))+
+  labs(x = '', y = '', title = '') +
+  ggtitle("Percent of Income Sources in 2016")+
+  blank_theme+
+  theme(axis.text = element_blank()) + theme(axis.ticks = element_blank())
+
+dat4 <- ACNC_2017[,c('size','main_activity','govern_grants','donation_bequests','other_revenue','other_income','total_gross_income')]
+t1_17 <- colSums(as.matrix(dat4[,3:6]))/sum(dat4[,3:6])
+df1_17 <- data.frame(sources=names(t1_17),num=as.numeric(t1_17))
+df1_17 <- df1_17[order(df1_17$num),]
+label_value_17 <- paste( round(df1_17$num/sum(df1_17$num) * 100, 1), '%', sep = '')
+label_value_17
+
+## 17
+gg_income17 <- ggplot(data=df1_17, aes(x=1:4,fill= sources,y=num,
+                                   text = paste(sep = "\n",
+                                                sources,
+                                                paste('Percent:',round(num,3)*100, "%"))))+
+  geom_bar(stat="identity",width=0.5,position='stack',size=5)+
+  # coord_polar("y", start=0)+
+  scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9","#FFCCFF"))+
+  geom_text(aes(label = label_value_17), size=3.2, position=position_stack(vjust = 0.5))+
+  labs(x = '', y = '', title = '') +
+  blank_theme+
+  ggtitle("Percent of Income Sources in 2017")+
+  theme(axis.text = element_blank()) + theme(axis.ticks = element_blank())
+
+
+ggplotly(gg_income16, tooltip = "text") %>% 
+  layout(showlegend = T)
+
+ggplotly(gg_income17, tooltip = "text") %>% 
+  layout(showlegend = T)
+
+
+```
+
+
+###  source income of different organazations 
+
+```{r Q3:source income and type}
+
+# source income of different organazations 
+
+# 16
+dat3$main_activity <- tolower(dat3$main_activity)
+t2 <- aggregate(dat3[,3:7], by=list(dat3$main_activity), FUN=sum)
+colnames(t2) <- c('main_activity','govern_grants','donation_bequests','other_revenue','other_income','total_gross_income')
+
+df2<-reshape2::melt(  
+  t2,  
+  id.vars=c('main_activity','total_gross_income'), 
+  variable.name = "sources",  
+  value.name = "num"   
+)  
+
+df2 <- df2[order(df2$total_gross_income,decreasing = T),]
+
+gg_income_type16 <- ggplot(data=df2)+geom_col(aes(x=main_activity, y=num, 
+                           label=fct_rev(fct_infreq(main_activity)),
+                           fill=fct_rev(fct_infreq(sources)),
+                           text = paste(sep = "\n",
+                                        main_activity,
+                                        sources,
+                     paste('Number:',num)),
+                           show.legend = F,stat ='identity'))+
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                            length.out = length(unique(df2$sources)))),
+                    guide = F)+
+  ggtitle("Source of Income by Type in 2016") +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Income") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+### 17
+t2_17 <- aggregate(dat4[,3:6], by=list(dat4$main_activity), FUN=sum)
+colnames(t2_17) <- c('main_activity','govern_grants','donation_bequests','other_revenue','other_income')
+df2_17<-reshape2::melt(  
+  t2_17,  
+  id.vars=c('main_activity'), 
+  variable.name = "sources",  
+  value.name = "num"   
+)  
+
+gg_income_type17 <- ggplot(data=df2_17)+geom_col(aes(x=fct_rev(fct_infreq(main_activity)), y=num, 
+                           label=fct_rev(fct_infreq(main_activity)),
+                           fill=fct_rev(fct_infreq(sources)),
+                           text = paste(sep = "\n",
+                                        main_activity,
+                                        sources,
+                     paste('Number:',num)),
+                           show.legend = F,stat ='identity'))+
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                            length.out = length(unique(df2_17$sources)))),
+                   guide = F)+
+  ggtitle("Source of Income by Type in 2017") +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Income") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +coord_flip()
+  
+
+
+ggplotly(gg_income_type16, tooltip = "text") %>% 
+  layout(showlegend = T)
+
+ggplotly(gg_income_type17, tooltip = "text") %>% 
+  layout(showlegend = T)
+
+```
+
+
+### Q3.3: income source by organization size
+
+```{r}
+
+t3 <- aggregate(dat3[,3:6], by=list(dat3$size), FUN=sum)
+colnames(t3) <- c('size','govern_grants','donation_bequests','other_revenue','other_income')
+df3<-reshape2::melt(  
+  t3,  
+  id.vars=c('size'), 
+  variable.name = "sources",  
+  value.name = "num"   
+)  
+
+gg_income_size16 <- ggplot(data=df3)+geom_col(aes(x=fct_rev(fct_infreq(size)), y=num, 
+                           label=fct_rev(fct_infreq(size)),
+                           fill=fct_rev(fct_infreq(sources)),
+                           text = paste(sep = "\n",
+                                        size,
+                                        sources,
+                     paste('Number:',num)),
+                           show.legend = F,stat ='identity'),position = 'fill')+
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                            length.out = length(unique(df2$sources)))),
+                    guide = F)+
+  ggtitle("Source of Income by Size in 2016") +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Income") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+# 17
+#### size
+t3_17 <- aggregate(dat4[,3:6], by=list(dat4$size), FUN=sum)
+colnames(t3_17) <- c('size','govern_grants','donation_bequests','other_revenue','other_income')
+df3_17<-reshape2::melt(  
+  t3_17,  
+  id.vars=c('size'), 
+  variable.name = "sources",  
+  value.name = "num"   
+)  
+
+df3_17$size <- tolower(df3_17$size)
+gg_income_size17 <- ggplot(data=df3_17)+geom_col(aes(x=fct_rev(fct_infreq(size)), y=num, 
+                           label=fct_rev(fct_infreq(size)),
+                           fill=fct_rev(fct_infreq(sources)),
+                           text = paste(sep = "\n",
+                                        size,
+                                        sources,
+                     paste('Number:',num)),
+                           show.legend = F,stat ='identity'),position = 'fill')+
+  scale_fill_manual(values = seq_gradient_pal(high = "cyan3", low = "cyan4")(seq(0, 1,
+                                            length.out = length(unique(df3_17$sources)))),
+                    guide = F)+
+  ggtitle("Source of Income by Size in 2017") +
+  scale_x_discrete(" ") +
+  scale_y_continuous("Income") +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  coord_flip()
+
+ggplotly(gg_income_size16, tooltip = "text") %>% 
+  layout(showlegend = T)
+ggplotly(gg_income_size17, tooltip = "text") %>% 
+  layout(showlegend = T)
+```
+
+
+## The prortion of income spent on emloyees expenses
+```{r }
+percent_emp_expense_16 <- sum(ACNC_2016$employee_expenses)/sum(ACNC_2016$total_gross_income)
+percent_emp_expense_17 <- sum(ACNC_2017$employee_expenses)/sum(ACNC_2017$total_gross_income)
+percent_emp_expense_16;percent_emp_expense_17
+```
