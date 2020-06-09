@@ -1676,7 +1676,7 @@ plot_ly(data = filter(Volunteers_PaidStaff_1617_long,
 ```
 
 
-# Health of Sector {.tabset .tabset-fade}
+# Financial Health of Sector {.tabset .tabset-fade}
 
 The below plots look at the number of charities running a deficit, surplus, or breaking even in each year. To count as having broken even, the net deficit/surplus for the charity has to equal exactly $0.
 
