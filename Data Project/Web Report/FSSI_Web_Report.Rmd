@@ -289,13 +289,20 @@ The social services sector in Victoria is a multi billion dollar sector providin
 
 As the social services sector in Victoria is so large and complex, this report dives into the data to better understand its composition and characteristics. This report and its data visualisations make use of data provided by the [Australian Charities and Not-for-profits Commission (ACNC)](https://www.acnc.gov.au) to examine the impact of charities and not-for-profit organisations in the social services sector in Victoria. This report also looks at changes in the nature of the charities and not-for-profits in the social services sector between 2016 and 2017.
 
-## Data {.tabset .tabset-fade}
+## Data
+
+### About the Data
 
 The ACNC Data for 2016 was previously accessed and cleaned by VCOSS and provided for analysis. The 2017 ACNC data was sourced and cleaned for this project to match the 2016 data. The ACNC data is self-reported information provided to the ACNC by charities. Please see **Appendix 1a** for more information on how the data was prepared to VCOSS standards.  
+
+### Excluded Data
+
 The ACNC gave some charities the choice to report their information as a group or a block. These were included in the original data source and were linked to invalid ABN codes. Entries with invalid ABN codes were removed from the data for both 2016 and 2017. For more information on how invalid ABNs can be identified, please see the [ABN website](https://abr.business.gov.au/Help/AbnFormat). For details on how these criteria were used to identify and remove invalid ABNs from the datasets, please see **Appendix 1b**.
 To better understand the structure of the data, click on the tabs below to see truncated excerpts of each year's dataset. 
 
-### 2016 ACNC Data - Victorian Charities
+### Preview of Datasets {.tabset .tabset-fade}
+
+#### 2016 ACNC Data - Victorian Charities
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -315,7 +322,7 @@ datatable(head(arrange(VCOSS_ACNC_16, desc(total_revenue_2016)), 30),
 
 ```
 
-### 2017 ACNC Data - Victorian Charities
+#### 2017 ACNC Data - Victorian Charities
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -335,7 +342,7 @@ datatable(head(arrange(VCOSS_ACNC_17, desc(total_revenue_2017)), 30),
 
 ```
 
-## How to make the most of this report
+### How to make the most of this report
 
 
 The below visualisations are all fully interactive; allowing you to focus and reset all of the elements that comprise each plot. Let your curiosity flow; click on legends to remove all other entries, double click legends to remove that individual entry, click and hold to zoom, use sliders to change year, reset and autoscale axes using the fading menu towards the top right.
@@ -368,9 +375,9 @@ Count_MainAct_17 <- arrange(Count_MainAct_17, desc(Count))
 
 ```
 
-Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was `r comma(SocServ16, 1)` charities, which decreased slighty in 2017 to `r comma(SocServ17, 1)` (`r percent(SocServ16 / TotalCount16, 0.1)` and `r percent(SocServ17 / TotalCount17, 0.1)` of total charities, respectively).  
+Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was `r comma(SocServ16, 1)` charities, which decreased slightly in 2017 to `r comma(SocServ17, 1)` (`r percent(SocServ16 / TotalCount16, 0.1)` and `r percent(SocServ17 / TotalCount17, 0.1)` of total charities, respectively).  
 
-In 2016, the largest number of charities were working in the Social Services sector with `r Count_MainAct_16$main_activity_2016[2]` recording the second-most number of charities at `r comma(Count_MainAct_16$Count[1], 1)`. These figures changed in 2017, with `r Count_MainAct_17$main_activity[1]` recording the greatest number of charities at `r comma(Count_MainAct_17$Count[1], 1)` while `r Count_MainAct_17$main_activity[2]` decreased slightly at `r comma(Count_MainAct_17$Count[2], 1)` charities.
+In 2016, the largest number of charities were working in the `r Count_MainAct_16$main_activity_2016[1]` sector with `r Count_MainAct_16$main_activity_2016[2]` recording the second-most number of charities at `r comma(Count_MainAct_16$Count[2], 1)`. These figures changed in 2017, with `r Count_MainAct_17$main_activity[1]` recording the greatest number of charities at `r comma(Count_MainAct_17$Count[1], 1)` while `r Count_MainAct_17$main_activity[2]` decreased slightly at `r comma(Count_MainAct_17$Count[2], 1)` charities.
 
 In 2016 and 2017,  small charities had a higher share than medium and large charities in numbers of social service charities. There were 731 small charities in 2016 and were slightly decreased to 709 in 2017. The number of large charities was decreased from 207 to 197 and the number of medium charities was decreased from 124 to 116 at the period of 2016 to 2017.
 
@@ -723,6 +730,7 @@ Total_Other_Revenue1617_long <- summarise(group_by(Other_Revenue1617_long,
                                                    revenue_source, Year),
                                           revenue_amount = sum(revenue_amount))
 
+Total_Other_Revenue1617_long$main_activity <- "Other Sectors"
 
 # plot
 
@@ -731,6 +739,7 @@ gg_Other_Revenue1617 <- ggplot(ungroup(Total_Other_Revenue1617_long),
            y = revenue_amount,
            colour = str_clean_wrap(revenue_source, 18),
            group = revenue_source,
+           # legendgroup = main_activity,
            text = paste(sep = "\n",
                         str_clean_wrap(revenue_source),
                         dollar(revenue_amount)))) +
@@ -747,7 +756,8 @@ gg_Other_Revenue1617 <- ggplot(ungroup(Total_Other_Revenue1617_long),
   theme(panel.grid.minor = element_blank())
 
 pl_Other_Revenue1617 <- ggplotly(gg_Other_Revenue1617,
-                                 tooltip = "text") %>% 
+                                 tooltip = "text",
+                                 legendgroup = "legendgroup") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12),
          legend = list(itemclick = "toggleothers",
@@ -780,6 +790,7 @@ gg_SocServ_Revenue1617 <- ggplot(SocServ_Revenue1617_long,
                                      y = revenue_amount,
                                      colour = str_clean_wrap(revenue_source, 18),
                                      group = revenue_source,
+                                     # legendgroup = main_activity,
                                      text = paste(sep = "\n",
                                                   str_clean_wrap(revenue_source),
                                                   dollar(revenue_amount)))) +
@@ -796,7 +807,8 @@ gg_SocServ_Revenue1617 <- ggplot(SocServ_Revenue1617_long,
   theme(panel.grid.minor = element_blank())
 
 pl_SocServ_Revenue1617 <- ggplotly(gg_SocServ_Revenue1617,
-                                   tooltip = "text") %>% 
+                                   tooltip = "text",
+                                   legendgroup = "legendgroup") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12))
 
@@ -815,7 +827,7 @@ subplot(pl_Other_Revenue1617, pl_SocServ_Revenue1617,
          legend = list(title = list(text = "Charity Size",
                                     standoff = 10,
                                     font = list(size = 14)),
-                       temclick = "toggleothers",
+                       itemclick = "toggleothers",
                        itemdoubleclick = "toggle"),
          margin = list(t = 50, b = 20))
 
@@ -1676,7 +1688,7 @@ plot_ly(data = filter(Volunteers_PaidStaff_1617_long,
 ```
 
 
-# Health of Sector {.tabset .tabset-fade}
+# Financial Health of Sector {.tabset .tabset-fade}
 
 The below plots look at the number of charities running a deficit, surplus, or breaking even in each year. To count as having broken even, the net deficit/surplus for the charity has to equal exactly $0.
 
