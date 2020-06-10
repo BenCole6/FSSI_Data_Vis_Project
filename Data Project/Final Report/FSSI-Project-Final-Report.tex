@@ -165,13 +165,29 @@ s3741909 and s3412349}
 \subsection*{Acknowledgement}\label{acknowledgement}}
 \addcontentsline{toc}{subsection}{Acknowledgement}
 
+Xuejiao and Ben would like to extend our gratitude to Paul Ramcharan, Jessica Lee-Ack, and Brooke McKail; our partners in FSSI and VCOSS for their invaluable mentorship and comprehensive industry knowledge that provided insight throughout this project. We would also like to thank RMIT for making this project possible as not only organisers of the project itself but also industry partners for FSSI.
+
 \hypertarget{declaration-of-originality}{%
 \subsection*{Declaration of Originality}\label{declaration-of-originality}}
 \addcontentsline{toc}{subsection}{Declaration of Originality}
 
+Xuejiao and Ben declare that, to the best of our knowledge, all work contained within this report and any supporting documentation is original, unless otherwise stated. Sources are referenced in RMIT-Harvard style, and some documents in the appendices have been created and shared by either FSSI or VCOSS.
+
 \hypertarget{glossary}{%
 \subsection*{Glossary}\label{glossary}}
 \addcontentsline{toc}{subsection}{Glossary}
+
+\begin{itemize}
+\tightlist
+\item
+  FSSI - Future Social Services Institute
+\item
+  VCOSS - Victorian Council of Social Service
+\item
+  RMIT - Royal Melbourne Institute of Technology
+\item
+  \emph{Main activity} - variable name derived from ACNC data, loosely interchangeable with ``sector''. Charities report the main activity they perform to the ACNC, but also report secondary activities as well. Main activity only pertains to this main activity as reported by charities to the ACNC
+\end{itemize}
 
 \hypertarget{student-contributions}{%
 \subsection*{Student Contributions}\label{student-contributions}}
@@ -501,7 +517,7 @@ The financial health of social service charities affects their ability to delive
 \caption{Budget status per Main Activity}
 \end{figure}
 
-Small social service charities were more likely to operate budget deficits and a balanced budged than medium-sized and large charities. Around 43.6\% of small charities operated budget deficits, compared to 21.7\% of large organisations and 33.9\% of medium-sized organisations in 2016. Figures changed to 44\%, 24.9\% and 31.9\% respectively in 2017.\\
+Small social service charities were more likely to operate budget deficits and a balanced budget than medium-sized and large charities. Around 43.6\% of small charities operated budget deficits, compared to 21.7\% of large organisations and 33.9\% of medium-sized organisations in 2016. Figures changed to 44\%, 24.9\% and 31.9\% respectively in 2017.\\
 Around 40.9\% of small charities in 2016 and 44\% in 2017 operated budget surplus compared to 77.8\% and 75.1\% of large charities and 63.7\% and 66.4\% of medium-sized charities. Conversely, 15.5\%/11.3\% of small charities operated in a balanced budget, compared to 2.4\%/2.7\% of medium-sized organisations and 0.5\%/0\% of large charities.\\
 Charities whose main activity was law and legal services were more likely to operate budget surpluses in 2016 while Charities whose main activity was income support and maintenance were more likely in 2017. Charities whose main activity was international activities were most likely to operate budget deficits in 2016 but in 2017 civic and advocacy activities charities got the highest chance of budget deficits. Charities whose main activity was social service were most likely to have balanced budgets in 2016 but law and legal service charities became more likely in 2017.
 
@@ -533,31 +549,26 @@ Government grants are the majority of funding sources for charities and not-for-
 \hypertarget{financial-health-of-sector-1}{%
 \subsubsection{Financial Health of Sector}\label{financial-health-of-sector-1}}
 
+The visualisations exploring the financial health of the sector uncovered some concerning information. Considering the large contribution made to the social services sector by charities and not-for-profits, it is alarming that such a high percentage of charities are running a budget deficit each year. Any budget deficit places a given charity at risk of collapsing, but this risk is far greater to small charities that don't have the same cultural/marketing capital as larger charities. Therefore the fact that a greater percentage of smaller charities run a budget deficit compared to their medium- and large-sized contemporaries hints at a possible instability in the sector. Whilst ACNC data for 2018, 2019, and 2020 is not available at the time of writing this report, it would be remiss to predict that these small charities running a budget deficit would be able to endure the economic effects of the COVID-19 crisis without experiencing stability.
+
 \hypertarget{method-of-analysis}{%
 \subsection{Method of Analysis}\label{method-of-analysis}}
 
-\hypertarget{limitations-and-improvements}{%
-\subsection{Limitations and Improvements}\label{limitations-and-improvements}}
+Data visualisation techniques often out-perform other methods of exploratory data analysis such as descriptive statistics, especially when using complex data with many variables or data that isn't normally distributed. As the ACNC data from 2016 and 2017 displayed all these properties, data visualisations allowed for concise summaries to be generated that offer insights into the nature of the data.\\
+As the majority of the variables were continuous or integer numeric variables, there were restrictions surrounding how data could be categorised during analysis. Main activity and charity size were frequently used, along with the created variable for Year, when visualising numeric variables.
 
-The data used in this report is sourced from Annual Information Statements (AIS) collected by the ACNC from registered charities categorised as charities and not-for-profit organisations. The reasons for changes in social services sector include:
+\hypertarget{limitations-and-recommendations}{%
+\subsection{Limitations and Recommendations}\label{limitations-and-recommendations}}
 
-\begin{itemize}
-\tightlist
-\item
-  Changes in numbers of charities registered with the ACNC
-\item
-  Main activity of charities are changed which may explain the big increase in the number of social services charities
-\item
-  More charities completed and submitted the AIS before due date
-\end{itemize}
-
-While the report gives a detailed visualization of the data set, there still need improvements in .
+Data visualisations served well to explore the Victorian ACNC data considering its complex nature. However, the visualisations made use of categorical variables too frequently when exploring continuous variabels, and further visualisations could have been produced exploring bivariate continuous data visualisations, such as scatter plots.\\
+The dot-and-line visualisations used to observe changes in continuous variables between the two years comprised considerable white/blank space when only examining a small number of categories, or when examining variables with a wide dispersion of data points between categories. For data summaries of a small nature, other visualisations could be explored, particularly using frames of a \texttt{plotly} animation to see changes over time.\\
+The project also only considered one data source; ACNC data in 2016 and 2017. There is scope for further data to be sourced or collected to gain further understanding of the contribution that charities make to the social services sector. Furthermore, as the data only pertained to charities and not-for-profits, it was not possible to quantify the impact of charities on the entire sector. Data from other sources would facilitate this comparison, for example allowing comparisons to be drawn to for-profit businesses also offering social services.
 
 \hypertarget{summary}{%
 \subsection{Summary}\label{summary}}
 
 \newpage
-\setstretch{1.25}
+\setstretch{1.125}
 \onecolumn
 
 \hypertarget{references}{%
