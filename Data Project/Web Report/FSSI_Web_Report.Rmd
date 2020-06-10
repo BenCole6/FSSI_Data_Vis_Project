@@ -586,13 +586,9 @@ ggplotly(gg_Sum_VIC_SocServ_1617,
 
 # Workforce Composition {.tabset .tabset-fade}
 
-From 2016 to 2017, the dominant staff type in social service sector was changed from part-time to full-time. The number of casual staff was the smallest in 2016 and 2017 compared with other staff types. A slight decrease in number of casual employees was seen in the period of 2016 to 2017; from 8,258 to 8,222 respectively. There were changes in the number of part-time employees and the number of full-time employees as well. The number of part-time employees decreased from 15,220 to 14,570  and the number of full-time employees increased from 11,818 to 20,905.
+From 2016 to 2017, the dominant staff type was changed from part-time to full-time. The number of casual staff was the smallest in 2016 and 2017 compared with other staff types. A slight decrease of 4.7% in number of casual employees was seen in the period of 2016 to 2017; from 36,868 to 36,551 respectively. There were changes in the number of part-time employees and the number of full-time employees as well. The number of part-time employees decreased from 67,131 to 63,140 (10.4% drop) and the number of full-time employees increased from 46,516 to 84,849 (15.1% increase).
 
-Civic and advocacy activites had the most volunteers in 2016 but had a huge drop from 77403 to 620 in 2017. In 2017, other education sectors got the highest numbers of volunteers. Social services were in the second place in both years and had a slightly decreasing from 75,605 to 70,289 people.
-
-Small charities of social service sectors rely the most on volunteers followed by medium and large charities. 
-
-Volunteers accounted for 68.2% in the social service workforce in 2016 and was changed to 61.7% in 2017.
+Social services charities had the largest number of all-type employees as well as full-time and casual type employees in 2016 but in 2017, the largest number of staff were in aged care charities. The number of staff in social services charities accounted for 23.5% of total number of charity staff in 2016 and decreased to 23.4% in 2017. Conversely, the total number of staff in organizations performing aged care activities increased from 20.2% to 24.6%. Other health service delivery charities saw the second largest number of employees and aged care activities had the third largest number of employees, which were 32,574 and 30,418 respectively in 2016. Things changed in 2017 while social services sectors and other education sectors were in the second and third place regarding to numbers of staffs. Income support and maintenance and civic and advocacy activities are seen having the smallest proportions of staffs.
 
 ## Employees {.tabset .tabset-pills}
 
@@ -1007,6 +1003,116 @@ plot_ly(data = filter(Volunteers_PaidStaff_1617_long,
 ```
 
 # Sector Funding Sources {.tabset .tabset-fade}
+
+The total revenue reported by charities to the ACNC each year was very strongly right-skewed. Many charities reported a total revenue of $0, whilst a very small number of big charities recorded total revenues in the hundreds of millions of dollars. The histograms below show the distribution of number of charities for each total revenue bracket for each year before and after a logarithmic transformation.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+VCOSS_TotalRev_1617 <- transmute(VCOSS_ACNC_16,
+                                 main_activity = main_activity_2016,
+                                 total_revenue = total_revenue_2016,
+                                 Year = 2016)
+
+VCOSS_TotalRev_1617 <- rbind(VCOSS_TotalRev_1617,
+                             transmute(VCOSS_ACNC_17,
+                                       main_activity = main_activity,
+                                       total_revenue = total_revenue_2017,
+                                       Year = 2017))
+
+VCOSS_TotalRev_1617 <- mutate(VCOSS_TotalRev_1617,
+                              activity_group = if_else(str_detect(main_activity,
+                                                                  regex("social services",
+                                                                        ignore_case = TRUE)),
+                                                       true = "Social Services",
+                                                       false = "Other Sectors"))
+
+gg_TotalRev_hist <- ggplot(filter(VCOSS_TotalRev_1617,
+                                  total_revenue > 0)) +
+  geom_histogram(aes(x = total_revenue,
+                     fill = activity_group,
+                     text = paste(sep = "\n",
+                                  paste(comma(..count..), "charities"),
+                                  paste(dollar(..x..), "total revenue"),
+                                  fill)),
+                 col = "grey40",
+                 bins = 24) +
+  scale_x_continuous("Total Revenue",
+                     labels = dollar_format(accuracy = 1,
+                                       scale = 0.000001,
+                                       suffix = "m"),
+                     n.breaks = 5) +
+  scale_y_continuous("Number of Charities",
+                     labels = comma) +
+  facet_wrap(Year ~ activity_group,
+                 scales = "free_y") +
+  scale_fill_manual("",
+                    values = c(FSSIQualSingle(2), FSSIGreenSingle)) +
+  theme_minimal() +
+  theme(panel.spacing.y = unit(3, "cm"))
+
+pl_TotalRev_hist <- ggplotly(gg_TotalRev_hist,
+                             tooltip = "text")
+
+gg_TotalRev_loghist <- ggplot(VCOSS_TotalRev_1617) +
+  geom_histogram(aes(x = total_revenue,
+                     fill = activity_group,
+                     text = paste(sep = "\n",
+                                  paste(comma(..count..), "charities"),
+                                  paste(dollar(..x..^10), "total revenue"),
+                                  fill)),
+                 col = "grey40",
+                 bins = 24) +
+  scale_x_log10("Total Revenue",
+                labels = dollar,
+                n.breaks = 5) +
+  scale_y_continuous("Number of Charities",
+                     labels = comma) +
+  facet_wrap(Year ~ activity_group ,
+                 scales = "free_y") +
+  scale_fill_manual("",
+                    values = c(FSSIQualSingle(2), FSSIGreenSingle)) +
+  theme_minimal() +
+  theme(panel.spacing.y = unit(3, "cm"))
+
+pl_TotalRev_loghist <- ggplotly(gg_TotalRev_loghist,
+                                tooltip = "text")
+
+
+subplot(pl_TotalRev_hist, pl_TotalRev_loghist,
+        nrows = 2,
+        margin = c(0, 0,
+                   0.066, 0.066)) %>% 
+  layout(title = list(text = "Distribution of Total Revenue on Standard and Logarithmic Scales",
+                      standoff = 20,
+                      xref = "canvas",
+                      x = 0.1),
+         legend = list(title = list(text = "Main Activity",
+                                    standoff = 10,
+                                    font = list(size = 14)),
+                       itemclick = "toggleothers",
+                       itemdoubleclick = "toggle"),
+         margin = list(t = 80, b = 10,
+                       l = 5, r = 5),
+         font = list(family = FSSIfont,
+                     size = 12),
+         xaxis = list(title = list(text = "Total Revenue - standard scale",
+                                    standoff = 0)),
+         xaxis2 = list(title = list(text = "Total Revenue - standard scale",
+                                    standoff = 0)),
+         xaxis3 = list(title = list(text = "Total Revenue - logarithmic scale",
+                                    standoff = 1)),
+         xaxis4 = list(title = list(text = "Total Revenue - logarithmic scale",
+                                    standoff = 1)),
+         yaxis = list(title = list(text = "Number of\nCharities",
+                                    standoff = 5)),
+         yaxis3 = list(title = list(text = "Number of\nCharities",
+                                    standoff = 5)),
+         yaxis5 = list(title = list(text = "Number of\nCharities",
+                                    standoff = 5)),
+         yaxis7 = list(title = list(text = "Number of\nCharities",
+                                    standoff = 5)))
+
+```
 
 ## Funding by Charity
 
@@ -1686,13 +1792,63 @@ subplot(pl_Other_Revenue_prop, pl_SocServ_Revenue_prop,
 
 # Financial Health of Sector {.tabset .tabset-fade}
 
-The below plots look at the number of charities running a deficit, surplus, or breaking even in each year. To count as having broken even, the net deficit/surplus for the charity has to equal exactly $0.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-There were 539 charities in 2016 had net surplus, 406 charities had net debt and 117 charities that had net even.
+DeficitSurplus16 <- summarise(filter(VCOSS_ACNC_16,
+                                     !str_detect(main_activity_2016,
+                                                 regex("social services",
+                                                       ignore_case = TRUE))),
+                              deficit = sum(net_surplus_deficit_2016 < 0),
+                              even = sum(net_surplus_deficit_2016 == 0),
+                              surplus = sum(net_surplus_deficit_2016 > 0))
 
-In 2017, the number of charities that had net surplus was decreased to 537, 403 charities had net debt and only 82 charities obteined net even.
+prop_charities_deficit16 <- sum(DeficitSurplus16$deficit) / sum(DeficitSurplus16$deficit,
+                                                              DeficitSurplus16$even,
+                                                              DeficitSurplus16$surplus)
 
-Numbers of charities that had net surplus were bigger than those that had net debt or even. There were the most charities that had net even in social service sector. 
+
+DeficitSurplus17 <- summarise(filter(VCOSS_ACNC_17,
+                                     !str_detect(main_activity,
+                                                 regex("social services",
+                                                       ignore_case = TRUE))),
+                              deficit = sum(net_surplus_deficit_2017 < 0),
+                              even = sum(net_surplus_deficit_2017 == 0),
+                              surplus = sum(net_surplus_deficit_2017 > 0))
+
+prop_charities_deficit17 <- sum(DeficitSurplus17$deficit) / sum(DeficitSurplus17$deficit,
+                                                              DeficitSurplus17$even,
+                                                              DeficitSurplus17$surplus)
+
+
+SocServ_grantsout16 <- sum(filter(VCOSS_ACNC_16,
+                                  str_detect(main_activity_2016,
+                                             regex("Social Services",
+                                                   ignore_case = TRUE)
+                                  ))$grants_and_donations_made_for_use_outside_australia_2016)
+
+SocServ_grantsin16 <- sum(filter(VCOSS_ACNC_16,
+                                 str_detect(main_activity_2016,
+                                            regex("Social Services",
+                                                  ignore_case = TRUE)
+                                 ))$grants_and_donations_made_for_use_in_australia_2016)
+
+
+SocServ_grantsin17 <- sum(filter(VCOSS_ACNC_17,
+                                 str_detect(main_activity,
+                                            regex("Social Services",
+                                                  ignore_case = TRUE)
+                                 ))$grants_and_donations_made_for_use_in_australia_2017)
+
+SocServ_grantsout17 <- sum(filter(VCOSS_ACNC_17,
+                                  str_detect(main_activity,
+                                             regex("Social Services",
+                                                   ignore_case = TRUE)
+                                  ))$grants_and_donations_made_for_use_outside_australia_2017)
+
+```
+
+The Social Services sector had the second-highest percentage of charities and not-for-profit organisations running a budget deficit in 2016 (38.2%) as well as in 2017 (39.4%). This is compared to `r percent(prop_charities_deficit16, 0.1)` of all other charities running a budget deficit in 2016 and `r percent(prop_charities_deficit17, 0.1)` of all other charities in deficit in 2017.  
+Compared to other sectors such as *International Activities* and *Other Education*, charities performing Social Services receive a relatively low amount of funding for grants and donations to be used in Australia or outside of Australia. Noticeably, the amount of grants and donations for use outside of Australia by Social Services increased from `r dollar(SocServ_grantsout16)` in 2016 to `r dollar(SocServ_grantsout17)` in 2017; a `r round(SocServ_grantsout17 / SocServ_grantsout16, 1)` fold increase between years.
 
 
 ## Budget Status {.tabset .tabset-pills}
