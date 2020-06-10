@@ -168,12 +168,12 @@ In an age of "*big data*" , it is essential that digital transformation be under
 Visualisation techniques are used to present big data in the form of tables, charts and graphics. It is believed by experts that representing data visually makes it possible to communicate data effectively and gives people the opportunity to analyse and examine various datasets which would otherwise be difficult to understand (Kennedy & Allen 2017). However, not all visualisation tools are useful in analysing large datasets or databases. For example, Tableau is a powerful popularly used visualisation tool but often struggles with complex and large datasets.  
 A good visualisation tool is able to explore data interactively and also assure the interaction quality of users with data visualisation (Berinato 2016). Tool designers should consider whether the user is able to adjust properties with the tool's interface, explore relationships between attributes of their choice and look for links between different data (Polack 2019).
 
-\newpage
-
 # Objectives
 
 The objective for this project as defined by primary stakeholder FSSI is to develop an interactive data visualisation tool that explores trends and changes between ACNC datasets for different years. 
 Stakeholders engagement determined the data visualisation tool would be used to answer several guiding questions as laid out in Appendix 1. Consultation sessions with FSSI further defined this objective to be explored using a web-based document that allows for interactive visualisations.
+
+\newpage
 
 # Methodology
 
@@ -209,13 +209,15 @@ During project planning meetings, FSSI stakeholders suggested following a co-des
 
 ## Social Services Sector Size
 
-Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was 1,062 charities, which decreased slightly in 2017 to 1,022 (22.8% and 22.0% of total charities, respectively). Number of charities in other sectors were increased from 3606 in 2016 to 3629 in 2017.
+Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was 1,062 charities, which decreased slightly in 2017 to 1,022 (22.8% and 22.0% of total charities, respectively). Number of charities in other sectors were increased from 3,606 in 2016 to 3,629 in 2017.
 
-Figure 2 shows the number of social service charities by self-reported size
+![Count of Social Services Charities by Charity Size](Fig2 SocServ Charity Size.png)
 
 The majority of Victoria’s social service charities were small charities (731 charities in 2016, 709 in 2017), followed by large charities (207 in  2016, 197 in 2017) and medium-size charities (124 in 2016 and 116 in 2017). 
 
 Figure 3 shows that most community service organisations (including social service charities) had no change or slight decrease in numbers. Only other education organizations and economic, social and community development organizations had a growth from 2016 to 2017.
+
+![Count of Victorian Charities per Main Activity](Fig3 Main Activity.png)
 
 ## Workforce Composition
 
@@ -223,23 +225,26 @@ The charitable services sector is a large and growing employer. Analysis of the 
 
 From 2016 to 2017, the dominant staff type in social service sector was changed from part-time to full-time. The number of casual staff was the smallest in 2016 and 2017 compared with other staff types. A slight decrease in number of casual employees was seen in the period of 2016 to 2017; from 8,258 to 8,222 respectively. There were changes in the number of part-time employees and the number of full-time employees as well. The number of part-time employees decreased from 15,220 to 14,570  and the number of full-time employees was increased from 11,818 to 20,905.
 
-Figure 5 shows the number of workers in the industry by organisation size and employment status.
+![Number of Workers in the Social Services Industry by Organisation Size and Employment Status](Fig4 CharSize EmployType.PNG)
 
 Large charities employed around 96 per cent of social services industry workers in Victoria in 2016 and 2017.
 This comprised:
--11,635 and 20,456 full-time workers (34.2% and 48.5%) 
--14,644 and 14,014 part-time workers (43% and 33.2%)
--7,773 and 7,734 casual workers (22.8% and 18.3%)
+
+- 11,635 and 20,456 full-time workers (34.2% and 48.5%)
+- 14,644 and 14,014 part-time workers (43% and 33.2%)
+- 7,773 and 7,734 casual workers (22.8% and 18.3%)
 
 Medium-size charities employed around 2.4 per cent of the total social service industry workforce in 2016 and 2017. The medium-size charity workforce comprised:
--139 and 325 full-time workers (16.1% and 31.1%)
--398 and 387 part-time workers (45.1% and 37%)
--326 and 334 casual workers (37.8% and 31.9%)
 
-Small charities employed around 1 per cent of the total social service industry workforce in 2016 and 2017.The small charity workforce comprised:
--44 and 124 full-time workers (11.5% and 27.7%)
--178 and 169 part-time workers (46.7% and 37.8%)
--326 and 334 casual workers (41.7% and 34.4%)
+- 139 and 325 full-time workers (16.1% and 31.1%)
+- 398 and 387 part-time workers (45.1% and 37%)
+- 326 and 334 casual workers (37.8% and 31.9%)
+
+Small charities employed around 1 per cent of the total social service industry workforce in 2016 and 2017. The small charity workforce comprised:
+
+- 44 and 124 full-time workers (11.5% and 27.7%)
+- 178 and 169 part-time workers (46.7% and 37.8%)
+- 326 and 334 casual workers (41.7% and 34.4%)
 
 The vast majority of Victorian Social services industry charities are supported by unpaid volunteer worker. Volunteer workers accounts for 68.2 per cent of the total social service industry workforce in 2016 and was decreased slightly to 61.7 per cent.
 

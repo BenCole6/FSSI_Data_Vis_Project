@@ -340,13 +340,13 @@ In an age of ``\emph{big data}'' , it is essential that digital transformation b
 Visualisation techniques are used to present big data in the form of tables, charts and graphics. It is believed by experts that representing data visually makes it possible to communicate data effectively and gives people the opportunity to analyse and examine various datasets which would otherwise be difficult to understand (Kennedy \& Allen 2017). However, not all visualisation tools are useful in analysing large datasets or databases. For example, Tableau is a powerful popularly used visualisation tool but often struggles with complex and large datasets.\\
 A good visualisation tool is able to explore data interactively and also assure the interaction quality of users with data visualisation (Berinato 2016). Tool designers should consider whether the user is able to adjust properties with the tool's interface, explore relationships between attributes of their choice and look for links between different data (Polack 2019).
 
-\newpage
-
 \hypertarget{objectives}{%
 \section{Objectives}\label{objectives}}
 
 The objective for this project as defined by primary stakeholder FSSI is to develop an interactive data visualisation tool that explores trends and changes between ACNC datasets for different years.
 Stakeholders engagement determined the data visualisation tool would be used to answer several guiding questions as laid out in Appendix 1. Consultation sessions with FSSI further defined this objective to be explored using a web-based document that allows for interactive visualisations.
+
+\newpage
 
 \hypertarget{methodology}{%
 \section{Methodology}\label{methodology}}
@@ -378,7 +378,7 @@ This project is centred on data that has already been collected by the ACNC and 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.45\textwidth,height=\textheight]{Plotly example.png}
+\includegraphics[width=0.45\textwidth,height=\textheight]{Fig1 Plotly example.png}
 \caption{A \texttt{Plotly} interactive plot using the ACNC dataset to visualise funding sources for each main activity}
 \end{figure}
 
@@ -390,44 +390,76 @@ During project planning meetings, FSSI stakeholders suggested following a co-des
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-\hypertarget{data-analysis}{%
-\subsection{Data Analysis}\label{data-analysis}}
+\hypertarget{social-services-sector-size}{%
+\subsection{Social Services Sector Size}\label{social-services-sector-size}}
 
-\hypertarget{social-service-sector-growth-analysis}{%
-\subsubsection{Social service sector growth Analysis}\label{social-service-sector-growth-analysis}}
+Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was 1,062 charities, which decreased slightly in 2017 to 1,022 (22.8\% and 22.0\% of total charities, respectively). Number of charities in other sectors were increased from 3,606 in 2016 to 3,629 in 2017.
 
-Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was 1,062 charities, which decreased slightly in 2017 to 1,022 (22.8\% and 22.0\% of total charities, respectively). Number of charities in other sectors were increased from 3606 in 2016 to 3629 in 2017.
-
-Figure 2 shows the number of social service charities by self-reported size
+\begin{figure}
+\centering
+\includegraphics{Fig2 SocServ Charity Size.png}
+\caption{Count of Social Services Charities by Charity Size}
+\end{figure}
 
 The majority of Victoria's social service charities were small charities (731 charities in 2016, 709 in 2017), followed by large charities (207 in 2016, 197 in 2017) and medium-size charities (124 in 2016 and 116 in 2017).
 
 Figure 3 shows that most community service organisations (including social service charities) had no change or slight decrease in numbers. Only other education organizations and economic, social and community development organizations had a growth from 2016 to 2017.
 
-\hypertarget{workforce-composition-analysis}{%
-\subsubsection{Workforce Composition Analysis}\label{workforce-composition-analysis}}
+\begin{figure}
+\centering
+\includegraphics{Fig3 Main Activity.png}
+\caption{Count of Victorian Charities per Main Activity}
+\end{figure}
+
+\hypertarget{workforce-composition}{%
+\subsection{Workforce Composition}\label{workforce-composition}}
 
 The charitable services sector is a large and growing employer. Analysis of the ACNC 2016-2017 data show that Victorian social service industry employed 35,296 people in 2016 and this figure was increased to 43,697 in 2017.
 
 From 2016 to 2017, the dominant staff type in social service sector was changed from part-time to full-time. The number of casual staff was the smallest in 2016 and 2017 compared with other staff types. A slight decrease in number of casual employees was seen in the period of 2016 to 2017; from 8,258 to 8,222 respectively. There were changes in the number of part-time employees and the number of full-time employees as well. The number of part-time employees decreased from 15,220 to 14,570 and the number of full-time employees was increased from 11,818 to 20,905.
 
-Figure 5 shows the number of workers in the industry by organisation size and employment status.
+\begin{figure}
+\centering
+\includegraphics{Fig4 CharSize EmployType.PNG}
+\caption{Number of Workers in the Social Services Industry by Organisation Size and Employment Status}
+\end{figure}
 
 Large charities employed around 96 per cent of social services industry workers in Victoria in 2016 and 2017.
 This comprised:
--11,635 and 20,456 full-time workers (34.2\% and 48.5\%)
--14,644 and 14,014 part-time workers (43\% and 33.2\%)
--7,773 and 7,734 casual workers (22.8\% and 18.3\%)
+
+\begin{itemize}
+\tightlist
+\item
+  11,635 and 20,456 full-time workers (34.2\% and 48.5\%)
+\item
+  14,644 and 14,014 part-time workers (43\% and 33.2\%)
+\item
+  7,773 and 7,734 casual workers (22.8\% and 18.3\%)
+\end{itemize}
 
 Medium-size charities employed around 2.4 per cent of the total social service industry workforce in 2016 and 2017. The medium-size charity workforce comprised:
--139 and 325 full-time workers (16.1\% and 31.1\%)
--398 and 387 part-time workers (45.1\% and 37\%)
--326 and 334 casual workers (37.8\% and 31.9\%)
 
-Small charities employed around 1 per cent of the total social service industry workforce in 2016 and 2017.The small charity workforce comprised:
--44 and 124 full-time workers (11.5\% and 27.7\%)
--178 and 169 part-time workers (46.7\% and 37.8\%)
--326 and 334 casual workers (41.7\% and 34.4\%)
+\begin{itemize}
+\tightlist
+\item
+  139 and 325 full-time workers (16.1\% and 31.1\%)
+\item
+  398 and 387 part-time workers (45.1\% and 37\%)
+\item
+  326 and 334 casual workers (37.8\% and 31.9\%)
+\end{itemize}
+
+Small charities employed around 1 per cent of the total social service industry workforce in 2016 and 2017. The small charity workforce comprised:
+
+\begin{itemize}
+\tightlist
+\item
+  44 and 124 full-time workers (11.5\% and 27.7\%)
+\item
+  178 and 169 part-time workers (46.7\% and 37.8\%)
+\item
+  326 and 334 casual workers (41.7\% and 34.4\%)
+\end{itemize}
 
 The vast majority of Victorian Social services industry charities are supported by unpaid volunteer worker. Volunteer workers accounts for 68.2 per cent of the total social service industry workforce in 2016 and was decreased slightly to 61.7 per cent.
 
@@ -435,8 +467,8 @@ Small charities of social service sectors rely the most on volunteers (97.2\% in
 
 In other comunity service sectors, Civic and advocacy activites had the most volunteers in 2016 but had a huge drop from 77403 to 620 in 2017. In 2017, other education sectors got the highest numbers of volunteers. Social services were in the second place in both years and had a slightly decreasing from 75,605 to 70,289 people.
 
-\hypertarget{sector-funding-analysis}{%
-\subsubsection{Sector Funding Analysis}\label{sector-funding-analysis}}
+\hypertarget{sector-funding}{%
+\subsection{Sector Funding}\label{sector-funding}}
 
 The Victorian social services industry collectively received an income of around 3 billion in 2016 and 2.3 billion in 2017 with around 60 percent these generated from government grants.
 Social services industry received the most in government grants (2.1billion and 1.97billion) in 2016 and 2017, with other health service delivery second (1.6 billion) in 2016 and aged care service delivery second (1.5 billion) in 2017. International activities raised the most from donations and bequests (513 million and 438 million).
@@ -445,8 +477,8 @@ Large social service charities received most money from government grants , whic
 Medium-sized social service charities raised 14 million in other income and revenue in 2017, a decrease from the previous year. They also raised around 10 million in donations and bequests, a slight decrease from the previous year.Reported income from government grants was 17 million, which was a slight decrease from 2016.
 Small social service charities received just around 5 million in other income and revenue, little change from 2016. They also raised 7.3 million from donations and bequests, a slight increase from 7.1 million in the previous year. Small social service charities also received around 3.9 million from government grants, almost the same as the previous year.
 
-\hypertarget{financial-health-of-sector-analysis}{%
-\subsubsection{Financial Health of Sector Analysis}\label{financial-health-of-sector-analysis}}
+\hypertarget{financial-health-of-sector}{%
+\subsection{Financial Health of Sector}\label{financial-health-of-sector}}
 
 The financial health of social service charities affects their ability to deliver vital services to people facing disadvantage. The plot shows the majority of Victorian social service charities (539 in 2016 and 537 in 2017) were in budget surplus. 82 social service charities operated a balanced budget in 2017 and this is a decrease on the number of charities from the previous year. 403 charites were in deficit in 2017 and it was changed little from the previous year.
 Small social service charities were more likely to operate budget deficits and a balanced budged than medium-sized and large charities. Around 43.6 per cent of small charities operated budget deficits, compared to 21.7 per cent of large organisations and 33.9 per cent of medium-sized organisations in 2016. Figures changed to 44 per cent, 24.9 per cent and 31.9 percent respectively in 2017.
