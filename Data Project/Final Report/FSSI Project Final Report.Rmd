@@ -24,15 +24,15 @@ geometry: margin=15mm
 \newpage
 \setstretch{1.35}
 
-# Executive Summary
+# Executive Summary {-}
 
-## Acknowledgement 
+## Acknowledgement {-}
 
-## Declaration of Originality
+## Declaration of Originality {-}
 
-## Glossary
+## Glossary {-}
 
-## Student Contributions
+## Student Contributions {-}
 
 Both student members of the project development team have contributed to the project equally.
 
@@ -227,26 +227,26 @@ From 2016 to 2017, the dominant staff type in social service sector was changed 
 
 ![Number of Workers in the Social Services Industry by Organisation Size and Employment Status](Fig4 CharSize EmployType.PNG)
 
-Large charities employed around 96 per cent of social services industry workers in Victoria in 2016 and 2017.
+Large charities employed around 96% of social services industry workers in Victoria in 2016 and 2017.
 This comprised:
 
 - 11,635 and 20,456 full-time workers (34.2% and 48.5%)
 - 14,644 and 14,014 part-time workers (43% and 33.2%)
 - 7,773 and 7,734 casual workers (22.8% and 18.3%)
 
-Medium-size charities employed around 2.4 per cent of the total social service industry workforce in 2016 and 2017. The medium-size charity workforce comprised:
+Medium-size charities employed around 2.4% of the total social service industry workforce in 2016 and 2017. The medium-size charity workforce comprised:
 
 - 139 and 325 full-time workers (16.1% and 31.1%)
 - 398 and 387 part-time workers (45.1% and 37%)
 - 326 and 334 casual workers (37.8% and 31.9%)
 
-Small charities employed around 1 per cent of the total social service industry workforce in 2016 and 2017. The small charity workforce comprised:
+Small charities employed around 1% of the total social service industry workforce in 2016 and 2017. The small charity workforce comprised:
 
 - 44 and 124 full-time workers (11.5% and 27.7%)
 - 178 and 169 part-time workers (46.7% and 37.8%)
 - 326 and 334 casual workers (41.7% and 34.4%)
 
-The vast majority of Victorian Social services industry charities are supported by unpaid volunteer worker. Volunteer workers accounts for 68.2 per cent of the total social service industry workforce in 2016 and was decreased slightly to 61.7 per cent.
+The vast majority of Victorian Social services industry charities are supported by unpaid volunteer worker. Volunteer workers accounts for 68.2% of the total social service industry workforce in 2016 and was decreased slightly to 61.7%.
 
 Small charities of social service sectors rely the most on volunteers (97.2% in 2016, 96.5% in 2017) followed by medium (85.3% and 78.2%) and large charities (62.7% and 56.3%).
 
@@ -254,24 +254,65 @@ In other comunity service sectors, Civic and advocacy activites had the most vol
 
 ## Sector Funding
 
-The Victorian social services industry collectively received an income of around 3 billion in 2016 and 2.3 billion in 2017 with around 60 percent these generated from government grants.
-Social services industry received the most in government grants (2.1billion and 1.97billion) in 2016 and 2017, with other health service delivery second (1.6 billion) in 2016 and aged care service delivery second (1.5 billion) in 2017. International activities raised the most from donations and bequests (513 million and 438 million).
-The plot shows government grants are the single biggest source of income for Victorican social service charities. All other income and revenue combined raised nearly 650 million for social service charities but the amount was decreased rapidly to 180 million by 2017, while donations and bequests raised over 200 million in both two years.
-Large social service charities received most money from government grants , which was around 2 billion. Income from donations and bequests decreased from 200 million to 184 million while other income and revenue received decreased from 600 million to 158 million in 2016-2017.
-Medium-sized social service charities raised 14 million in other income and revenue in 2017, a decrease from the previous year. They also raised around 10 million in donations and bequests, a slight decrease from the previous year.Reported income from government grants was 17 million, which was a slight decrease from 2016.
-Small social service charities received just around 5 million in other income and revenue, little change from 2016. They also raised 7.3 million from donations and bequests, a slight increase from 7.1 million in the previous year. Small social service charities also received around 3.9 million from government grants, almost the same as the previous year. 
+The Victorian social services industry collectively received an income of around \$3 billion in 2016 and 
+\$2.3 billion in 2017 with around 60% these generated from government grants.  
+Social services industry received the most in government grants (\$2.1bn and \$1.97bn) in 2016 and 2017, with other health service delivery second (\$1.6bn) in 2016 and aged care service delivery second (\$1.5bn) in 2017. International activities raised the most from donations and bequests (\$513m and \$438m).  
+Figure 5 shows government grants are the single biggest source of income for Victorican social service charities. All other income and revenue combined raised nearly \$650m for social service charities but the amount was decreased substantially to \$180m by 2017, while donations and bequests raised over \$200m in each year.
+
+![Proportion of Funding Sources per Main Activity](Fig5 Funding Props.PNG)
+
+Large social service charities received most money from government grants, which was around \$2 billion. Income from donations and bequests decreased from \$200m to \$184m while other income and revenue received decreased from \$600m to \$158m in 2016-2017.  
+Medium-sized social service charities raised \$14m in other income and revenue in 2017, a decrease from the previous year. They also raised around \$10m in donations and bequests, a slight decrease from the previous year. Reported income from government grants was \$17m, which was a slight decrease from 2016.  
+Small social service charities received just around \$5m in other income and revenue, little change from 2016. They also raised \$7.3m from donations and bequests, a slight increase from \$7.1m in the previous year. Small social service charities also received around \$3.9m from government grants, almost the same as the previous year. 
 
 ## Financial Health of Sector
 
-The financial health of social service charities affects their ability to deliver vital services to people facing disadvantage. The plot shows the majority of Victorian social service charities (539 in 2016 and 537 in 2017) were in budget surplus. 82 social service charities operated a balanced budget in 2017 and this is a decrease on the number of charities from the previous year. 403 charites were in deficit in 2017 and it was changed little from the previous year.
-Small social service charities were more likely to operate budget deficits and a balanced budged than medium-sized and large charities. Around 43.6 per cent of small charities operated budget deficits, compared to 21.7 per cent of large organisations and 33.9 per cent of medium-sized organisations in 2016. Figures changed to 44 per cent, 24.9 per cent and 31.9 percent respectively in 2017.
-Around 40.9 per cent 44 per cent of small charities operated budget surplus compared to 77.8 per cent and 75.1 per cent of large charities and 63.7 per cent and 66.4 per cent of medium-sized charities.
-15.5 per cent/11.3 per cent of small charities operated in budget balance, compared to 2.4 per cent/2.7 per cent of  medium-sized organisations and 0.5 per cent/0 per cent  of large charities.
-Charities whose main activity was law and legal services were more likely to operate budget surpluses in 2016 while Charities whose main activity was income support and maintenance were more likely in 2017. Charities whose main activity was international activities were most likely to operate budget deficits in 2016 but in 2017 civi and advocacy service charities got the highest chance of budget deficits. Charities whose main activity was social service were most likely to have balanced budgets in 2016 but law and legal service charities became more likely in 2017.
+The financial health of social service charities affects their ability to deliver vital services to people facing disadvantage. Figure 6 shows the majority of Victorian social service charities (539 in 2016 and 537 in 2017) were in budget surplus. 82 social service charities operated a balanced budget in 2017 and this is a decrease on the number of charities from the previous year. 403 charites were in deficit in 2017 and it was changed little from the previous year.
+
+![Budget status per Main Activity](Fig6 Budget Status props.PNG)
+
+Small social service charities were more likely to operate budget deficits and a balanced budged than medium-sized and large charities. Around 43.6% of small charities operated budget deficits, compared to 21.7% of large organisations and 33.9% of medium-sized organisations in 2016. Figures changed to 44%, 24.9% and 31.9% respectively in 2017.    
+Around 40.9% of small charities in 2016 and 44% in 2017 operated budget surplus compared to 77.8% and 75.1% of large charities and 63.7% and 66.4% of medium-sized charities. Conversely, 15.5%/11.3% of small charities operated in a balanced budget, compared to 2.4%/2.7% of medium-sized organisations and 0.5%/0%  of large charities.  
+Charities whose main activity was law and legal services were more likely to operate budget surpluses in 2016 while Charities whose main activity was income support and maintenance were more likely in 2017. Charities whose main activity was international activities were most likely to operate budget deficits in 2016 but in 2017 civic and advocacy activities charities got the highest chance of budget deficits. Charities whose main activity was social service were most likely to have balanced budgets in 2016 but law and legal service charities became more likely in 2017.
 
 
 # Discussion
 
+This report visualised the 2016 and 2017 ACNC datasets for Victoria charities and not-for-profit organisations, which is a strong and fast growing industry, particularly the social services industry. Social services industry is a key component of Victorian economy and also a key employer. It consists of thousands of charities, employing tens of thousands of staff and having thousands of volunteers. It is a billion dollar sector receiving a large amount of income from governments, donations and other revenue (eg. Service fees). The financial support from government contributes to the growth of the sector.  
+As the charitable and not-for-profit social services sector is so large and the nature of the data is a summary of surveyed reportings, it was necessary that analysis of the data began with exploratory techniques in the form of visualisations.
+
+## Interpretation of Results
+
+### Social Services Sector Size
+
+Considering the large contribution to essential services provided by the charities in the social services sector such as aged care, disability care, etc, it was expected that socials services charities would make up a large proportion of all charities operating in Victoria. However, the finding that social services charities comprised more than 1 out of 5 Victorian charities in 2016 and 2017 highlighted the important contribution that charities make to social services.  
+Considering the large quantity of charities performing social services, it was expected that a similarly large proportion of social services charities were small or medium in size. The number of large social services charities was greater than medium-sized charities for both 2016 and 2017, which could be due to the nature of the social services provided. This could be in the form that larger charities tend to provide social services such as aged care and disability care, while smaller charities provide more specialised social services like Returned Soldiers Leagues for individual communities/suburbs and individual childcare facilities.
+
+### Workforce Composition
+
+It was also unsurprising that charities in the social services sector employed a very large number of paid staff and volunteers throughout the years, but the visualisations revealed such a large proportion of the total workforce are employed by large charities. The visualisations also revealed that the number of volunteers working in social services charities outweighed the total number of paid staff across both years, underlining the sector's reliance on unpaid staff. When focusing on medium and smaller charities, not only do volunteers comprise the majority of staff, but they are often more than 90% of the total staff count in social services charities of these sizes.
+
+### Sector Funding
+
+Government grants are the majority of funding sources for charities and not-for-profits across all but one sector (international activities), and charities in the social services sector are no exception. Charities operating in social services collected the greatest amount of government grants in both 2016 and 2017, which shows how much the sector is reliant on government funding to perform their services. Furthermore, large social services charities received approximately three quarters (75%) of their total funding from government grants in each year, which was in contrast to small and medium social charities that received smaller proportions of their funding from government grants. Large social services charities also received a much greater proportion of their funding from government grants than large charities in other sectors, which only further emphasises the reliance on government funding to maintain social services.  
+
+### Financial Health of Sector
+
+
+
+
+
+## Method of Analysis
+
+## Limitations and Improvements
+
+The  data used in this report is sourced from Annual Information Statements (AIS) collected by the ACNC from registered charities categorised as charities and not-for-profit organisations. The reasons for changes in social services sector include:
+
+- Changes in numbers of charities registered with the ACNC
+- Main activity of charities are changed which may explain the big increase in the number of social services charities
+- More charities completed and submitted the AIS before due date
+
+While the report gives a detailed visualization of the data set, there still need improvements in .
 
 ## Summary
 
