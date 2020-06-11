@@ -380,22 +380,19 @@ The 2016 ACNC data set had already been accessed by VCOSS and cleaned to their s
 \hypertarget{data-cleaning}{%
 \subsubsection{Data Cleaning}\label{data-cleaning}}
 
-As the 2016 data was pre-prepared by VCOSS, no cleaning was performed on it prior to use in the project besides identifying and removing invalid ABNs (see below). The 2017 ACNC dataset was sourced directly from the \href{https://data.gov.au/dataset/ds-dga-a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e/details?q=}{\textbf{data.gov.au website}} and was cleaned to VCOSS standards. Please see Appendix 2 for further details on how the 2017 dataset was cleaned.\\
+As the 2016 data was pre-prepared by VCOSS, no cleaning was performed on it prior to use in the project besides identifying and removing invalid ABNs (see below). The 2017 ACNC dataset was sourced directly from the \href{https://data.gov.au/dataset/ds-dga-a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e/details?q=}{\textbf{\emph{data.gov.au website}}} and was cleaned to VCOSS standards. Please see Appendix 2 for further details on how the 2017 dataset was cleaned.\\
 Hereon the ACNC datasets cleaned to VCOSS standards will be denoted as \emph{VCOSS ACNC} \{year\} \emph{Data}, or words to that effect.
-
-\hypertarget{merging-aged-care-activities-and-social-services}{%
-\paragraph{Merging Aged Care Activities and Social Services}\label{merging-aged-care-activities-and-social-services}}
 
 \hypertarget{removing-invalid-abns}{%
 \paragraph{Removing Invalid ABNs}\label{removing-invalid-abns}}
 
-Exploration of the data by the development team revealed there to be invalid ABNs in the 2016 VCOSS ACNC dataset. Referring to the \href{https://abr.business.gov.au/Help/AbnFormat}{\textbf{Australian Business Register website}}, the development team wrote a short block of code to run through all ABNs in the VCOSS ACNC datasets and identify valid or invalid ABN numbers. It was found that most of the entries in the data with invalid ABNs were tied to ACNC reporting groups, which is explaned on the \href{https://www.acnc.gov.au/for-charities/manage-your-charity/obligations-acnc/reporting-annually-acnc/group-reporting-and-bulk}{\textbf{ACNC website}}.
-Any ABN found to be invalid resulted in the entire entry being removed from the datasets before further use in visualisations and analysis. Please see Appendix 3 for a code snippet on how these ABNs were identified.
+Exploration of the data by the development team revealed there to be invalid ABNs in the 2016 VCOSS ACNC dataset. Referring to the \href{https://abr.business.gov.au/Help/AbnFormat}{\textbf{\emph{Australian Business Register website}}}, the development team wrote a short block of code to run through all ABNs in the VCOSS ACNC datasets and identify valid or invalid ABN codes. It was found that most of the entries in the data with invalid ABNs were tied to ACNC reporting groups, which is explaned on the \href{https://www.acnc.gov.au/for-charities/manage-your-charity/obligations-acnc/reporting-annually-acnc/group-reporting-and-bulk}{\textbf{\emph{ACNC website}}}.\\
+Any ABN found to be invalid resulted in the removal of the entire entry from the datasets before further use in visualisations and analysis. Please see Appendix 3 for a code snippet on how these ABNs were identified.
 
 \hypertarget{digital-report}{%
 \subsection{Digital Report}\label{digital-report}}
 
-This project is centred on data that has already been collected by the ACNC and cleaned to standards established by VCOSS. Once the appropriate data was defined via discussion with stakeholders, a digital report summarising key findings from the VCOSS ACNC 2016 and 2017 datasets was compiled. The report combined interactive data visualisations with industry insights, and was prepared as a .html file with R packages \texttt{ggplot2} and \texttt{plotly} used for visualisations as required. Please see figure 1 for an example of an interactive \texttt{plotly} chart build with the VCOSS ACNC 2016 and 2017 datasets.
+This project is centred on data that has already been collected by the ACNC and cleaned to standards established by VCOSS. Once the appropriate data was defined via discussion with stakeholders, a digital report summarising key findings from the VCOSS ACNC 2016 and 2017 datasets was compiled. The report combined interactive data visualisations with industry insights, and was prepared as a .html file with R packages \texttt{ggplot2} and \texttt{plotly} used for visualisations as required. Please see figure 1 for an example of an interactive \texttt{plotly} chart built with the VCOSS ACNC 2016 and 2017 datasets.
 
 \begin{figure}
 \centering
@@ -406,7 +403,7 @@ This project is centred on data that has already been collected by the ACNC and 
 \hypertarget{stakeholder-engagement}{%
 \subsection{Stakeholder Engagement}\label{stakeholder-engagement}}
 
-During project planning meetings, FSSI stakeholders suggested following a co-design process to engage key contributors from both FSSI and VCOSS throughout the development stages to ensure the project was fit for purpose at all stages of development. Meetings with stakeholders in FSSI and VCOSS were held weekly during the development of the project, which addressed both design considerations as well as extra insight into the data offered from an industry perspective.
+During project planning meetings, FSSI stakeholders suggested following a co-design process to engage key contributors from both FSSI and VCOSS throughout all stages of development to ensure the project was fit for purpose. Meetings with stakeholders in FSSI and VCOSS were held weekly during the development of the project, which addressed both design considerations as well as extra insight into the data offered from an industry perspective.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -414,7 +411,7 @@ During project planning meetings, FSSI stakeholders suggested following a co-des
 \hypertarget{social-services-sector-size}{%
 \subsection{Social Services Sector Size}\label{social-services-sector-size}}
 
-Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was 1,062 charities, which decreased slightly in 2017 to 1,022 (22.8\% and 22.0\% of total charities, respectively). Number of charities in other sectors were increased from 3,606 in 2016 to 3,629 in 2017.
+Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was 1,062 charities, which decreased slightly in 2017 to 1,022 (22.8\% and 22.0\% of total charities, respectively). The number of charities in other sectors increased from 3,606 in 2016 to 3,629 in 2017.
 
 \begin{figure}
 \centering
@@ -424,7 +421,7 @@ Charities operating in the social services sector comprise more than one out of 
 
 The majority of Victoria's social service charities were small charities (731 charities in 2016, 709 in 2017), followed by large charities (207 in 2016, 197 in 2017) and medium-size charities (124 in 2016 and 116 in 2017).
 
-Figure 3 shows that most community service organisations (including social service charities) had no change or slight decrease in numbers. Only other education organizations and economic, social and community development organizations had a growth from 2016 to 2017.
+Figure 3 shows that most community service organisations (including social service charities) had no change or slight decrease in numbers. Only other education organisations and economic, social and community development organisations increased in number from 2016 to 2017.
 
 \begin{figure}
 \centering
@@ -539,17 +536,17 @@ Considering the large quantity of charities performing social services, it was e
 \hypertarget{workforce-composition-1}{%
 \subsubsection{Workforce Composition}\label{workforce-composition-1}}
 
-It was also unsurprising that charities in the social services sector employed a very large number of paid staff and volunteers throughout the years, but the visualisations revealed such a large proportion of the total workforce are employed by large charities. The visualisations also revealed that the number of volunteers working in social services charities outweighed the total number of paid staff across both years, underlining the sector's reliance on unpaid staff. When focusing on medium and smaller charities, not only do volunteers comprise the majority of staff, but they are often more than 90\% of the total staff count in social services charities of these sizes.
+It was unsurprising that charities in the social services sector employed a very large number of paid staff and volunteers throughout the years, and the visualisations revealed the largest proportion of the total workforce are employed by large charities. The visualisations also revealed that the number of volunteers working in social services charities outweighed the total number of paid staff across both years, underlining the sector's reliance on unpaid staff. When focusing on medium and smaller charities, not only do volunteers comprise the majority of staff, but they are often more than 90\% of the total staff count in social services charities of these sizes.
 
 \hypertarget{sector-funding-1}{%
 \subsubsection{Sector Funding}\label{sector-funding-1}}
 
-Government grants are the majority of funding sources for charities and not-for-profits across all but one sector (international activities), and charities in the social services sector are no exception. Charities operating in social services collected the greatest amount of government grants in both 2016 and 2017, which shows how much the sector is reliant on government funding to perform their services. Furthermore, large social services charities received approximately three quarters (75\%) of their total funding from government grants in each year, which was in contrast to small and medium social charities that received smaller proportions of their funding from government grants. Large social services charities also received a much greater proportion of their funding from government grants than large charities in other sectors, which only further emphasises the reliance on government funding to maintain social services.
+Government grants are the majority of funding sources for charities and not-for-profits across all but one sector (international activities), and charities in the social services sector are no exception. Charities operating in social services collected the greatest amount of government grants in both 2016 and 2017, which shows how much the sector is reliant on government funding to perform their services. Furthermore, large social services charities received approximately three quarters (75\%) of their total funding from government grants in each year, which was in contrast to small and medium social charities that received smaller proportions of their funding from government grants. Large social services charities also received a much greater proportion of their funding from government grants than large charities in other sectors, which only further emphasises the importance of government funding in maintaining social services.
 
 \hypertarget{financial-health-of-sector-1}{%
 \subsubsection{Financial Health of Sector}\label{financial-health-of-sector-1}}
 
-The visualisations exploring the financial health of the sector uncovered some concerning information. Considering the large contribution made to the social services sector by charities and not-for-profits, it is alarming that such a high percentage of charities are running a budget deficit each year. Any budget deficit places a given charity at risk of collapsing, but this risk is far greater to small charities that don't have the same cultural/marketing capital as larger charities. Therefore the fact that a greater percentage of smaller charities run a budget deficit compared to their medium- and large-sized contemporaries hints at a possible instability in the sector. Whilst ACNC data for 2018, 2019, and 2020 is not available at the time of writing this report, it would be remiss to predict that these small charities running a budget deficit would be able to endure the economic effects of the COVID-19 crisis without experiencing stability.
+The visualisations exploring the financial health of the sector uncovered some concerning information. Considering the large contribution made to the social services sector by charities and not-for-profits, it is alarming that such a high percentage of charities are running a budget deficit each year. Any budget deficit places a given charity at risk of collapsing, but this risk is far greater to small charities that don't have the same cultural/marketing capital as larger charities. Therefore the fact that a greater percentage of smaller charities run a budget deficit compared to their medium- and large-sized contemporaries indicates instability in the sector. Whilst ACNC data for 2018, 2019, and 2020 is not available at the time of writing this report, it would be remiss to predict that these small charities running a budget deficit would be able to endure the economic effects of the COVID-19 crisis without experiencing instability.
 
 \hypertarget{method-of-analysis}{%
 \subsection{Method of Analysis}\label{method-of-analysis}}
@@ -560,7 +557,7 @@ As the majority of the variables were continuous or integer numeric variables, t
 \hypertarget{limitations-and-recommendations}{%
 \subsection{Limitations and Recommendations}\label{limitations-and-recommendations}}
 
-Data visualisations served well to explore the Victorian ACNC data considering its complex nature. However, the visualisations made use of categorical variables too frequently when exploring continuous variabels, and further visualisations could have been produced exploring bivariate continuous data visualisations, such as scatter plots.\\
+Data visualisations served well to explore the Victorian ACNC data considering its complex nature. However, the visualisations made use of categorical variables too frequently when exploring continuous variables, and further visualisations could have been produced exploring bivariate continuous data visualisations, such as scatter plots.\\
 The dot-and-line visualisations used to observe changes in continuous variables between the two years comprised considerable white/blank space when only examining a small number of categories, or when examining variables with a wide dispersion of data points between categories. For data summaries of a small nature, other visualisations could be explored, particularly using frames of a \texttt{plotly} animation to see changes over time.\\
 The project also only considered one data source; ACNC data in 2016 and 2017. There is scope for further data to be sourced or collected to gain further understanding of the contribution that charities make to the social services sector. Furthermore, as the data only pertained to charities and not-for-profits, it was not possible to quantify the impact of charities on the entire sector. Data from other sources would facilitate this comparison, for example allowing comparisons to be drawn to for-profit businesses also offering social services.
 
