@@ -26,6 +26,11 @@ geometry: margin=15mm
 
 # Executive Summary {-}
 
+This paper examines the effectiveness of interactive data visualisation techniques for exploring charity and not-for-profit data collected by the Australian Charities and Not-for-profit Commission (ACNC) across two years, as well as reporting key findings of the sector.
+This project was conducted in partnership with FSSI and VCOSS, and the series of data visualisation analyses were compiled into a web report. The intended audience of this web report is industry stakeholders, and was submitted as supporting documentation.  
+As a method of exploratory analysis, interactive visualisations were found to be a concise and effective tool for handling the summation of data of a complex nature. Visualisation techniques allowed for an improved understanding of the Victorian social services sector, primarly that the sector is reliant on government funding, the reliance of volunteers, and that a large proportion of charities operate in a budget deficit each year.  
+This study could have been improved by using a greater variety of data visualisation techniques. This limitation was in part due to the single data source used, which could also be expanded upon for future updates.
+
 ## Acknowledgement {-}
 
 Xuejiao and Ben would like to extend our gratitude to Paul Ramcharan, Jessica Lee-Ack, and Brooke McKail; our partners in FSSI and VCOSS for their invaluable mentorship and comprehensive industry knowledge that provided insight throughout this project. We would also like to thank RMIT for making this project possible as not only organisers of the project itself but also industry partners for FSSI. 
@@ -45,7 +50,8 @@ Xuejiao and Ben declare that, to the best of our knowledge, all work contained w
 
 ## Student Contributions {-}
 
-Both student members of the project development team have contributed to the project equally. Most of the work throughout this project has been shared, and contributions overlapped regularly. The table below lists the main contributors to each section in order, where a comma ( , ) is used. If "and" is used, contributions are equal.
+Both student members of the project development team have contributed to the project equally. Most of the work throughout this project has been shared, and contributions overlapped regularly. The table below lists the main contributors to each section in order, where a comma ( , ) is used. If "and" is used, contributions are equal.  
+Sections of the project proposal were reused in this final report. As such, student contributions for this final report have only been listed for new sections or sections substantially changed.
 
 ```{r echo=FALSE, message=F, warning=F}
 
@@ -56,7 +62,9 @@ p_load(tidyverse,
        kableExtra)
 
 Contributions <- tibble(File = c(rep("Project Proposal", 9),
-                                 "Web Report"),
+                                 rep("Final assessment (this report)", 3),
+                                 rep("Web Report", 5),
+                                 rep("Presentation slides", 5)),
                         Section = c("1 Introduction, 1.1 Background, 1.2 Significance",
                                     "2 Brief Literature Review, 2.1 Transformation of the Social Services Sector",
                                     "2.2 Data Visualisations in the Social Services Sector",
@@ -66,9 +74,19 @@ Contributions <- tibble(File = c(rep("Project Proposal", 9),
                                     "5.2 Collaboration Plan",
                                     "6 References",
                                     "7 Appendices",
+                                    "4 Methodology",
+                                    "5 Results",
+                                    "6 Discussion",
                                     "Foreword",
                                     "Sector Size and Composition - text",
-                                    "Sector Funding Sources"),
+                                    "Sector Funding Sources - text",
+                                    "Financial Health of Sector - text",
+                                    "Code for all visualisations",
+                                    "Introduction, objectives",
+                                    "Methodology",
+                                    "Results",
+                                    "Limitations & Recommendations",
+                                    "Insights"),
                         "Contributing Students" = c("Ben Cole",
                                                     "Ben Cole",
                                                     "Xuejiao Zhou",
@@ -78,19 +96,30 @@ Contributions <- tibble(File = c(rep("Project Proposal", 9),
                                                     "Ben Cole",
                                                     "Xuejiao Zhou and Ben Cole",
                                                     "Xuejiao Zhou and Ben Cole",
+                                                    "Ben Cole",
+                                                    "Xuejiao Zhou, Ben Cole",
+                                                    "Ben Cole",
                                                     "Ben Cole, Xuejiao Zhou",
                                                     "Xuejiao Zhou, Ben Cole",
-                                                    ))
+                                                    "Xuejiao Zhou, Ben Cole",
+                                                    "Xuejiao Zhou, Ben Cole",
+                                                    "Ben Cole, Xuejiao Zhou",
+                                                    "Xuejiao Zhou",
+                                                    "Ben Cole",
+                                                    "Ben Cole",
+                                                    "Xuejiao Zhou",
+                                                    "Ben Cole"))
 
 kable(Contributions,
       format = "latex") %>% 
   kable_styling(position = "center",
                 latex_options = "striped",
                 font_size = 10) %>% 
-  column_spec(1, border_left = TRUE) %>% 
+  column_spec(1, border_left = TRUE, width = "30mm") %>% 
   column_spec(2, width = "80mm") %>%
   column_spec(ncol(Contributions), border_right = T, width = "40mm") %>% 
   row_spec(0, bold = T, background = "#caf6f9") %>% 
+  row_spec(12, hline_after = TRUE) %>% 
   collapse_rows(columns = 1)
 
 ```
@@ -172,6 +201,8 @@ Similar to the Royal Commission into Aged Care Quality and Safety, a separate Ro
 
 The Australian Charities and Not-for-Profit Commission (*ACNC*) (2019) reported over 57,500 total charities operating or registered within Australia in the year 2017. Australian charities included in the ACNC report recorded 1.26 million employees in paid positions, and 3.3 million volunteer roles. Of those more than 57,500 charities, 10.9% we found to be operating within the social services sector. Furthermore, the ACNC reported that 20.5% of these charities were based in Victoria. Charities make a sizeable contribution to Australia's workforce and an equally important contribution to the delivery of social services. 
 
+\newpage
+
 ## Significance
 
 The social services sector is clearly going to change considerably in the next few years, which FSSI cite as one of the primary reasons for their being established. The FSSI is choosing to focus on 3 pillars of support to the social services sector; growth, quality, and adaption. Data collected by the ACNC will assist FSSI in assessing how the Victorian social services sector will grow over time, how the quality of it's services can be maintained and improved, and how best to both adapt to and inspire the changes that will occur in the future. 
@@ -189,12 +220,12 @@ In an age of "*big data*" , it is essential that digital transformation be under
 Visualisation techniques are used to present big data in the form of tables, charts and graphics. It is believed by experts that representing data visually makes it possible to communicate data effectively and gives people the opportunity to analyse and examine various datasets which would otherwise be difficult to understand (Kennedy & Allen 2017). However, not all visualisation tools are useful in analysing large datasets or databases. For example, Tableau is a powerful popularly used visualisation tool but often struggles with complex and large datasets.  
 A good visualisation tool is able to explore data interactively and also assure the interaction quality of users with data visualisation (Berinato 2016). Tool designers should consider whether the user is able to adjust properties with the tool's interface, explore relationships between attributes of their choice and look for links between different data (Polack 2019).
 
+\newpage
+
 # Objectives
 
 The objective for this project as defined by primary stakeholder FSSI is to develop an interactive data visualisation tool that explores trends and changes between ACNC datasets for different years. 
 Stakeholder engagement determined the data visualisation tool would be used to answer several guiding questions as laid out in Appendix 1. Consultation sessions with FSSI further defined this objective to be explored using a web-based document that allows for interactive visualisations.
-
-\newpage
 
 # Methodology
 
@@ -281,6 +312,7 @@ Figure 5 shows government grants are the single biggest source of income for Vic
 Large social service charities received most money from government grants, which was around \$2 billion. Income from donations and bequests decreased from \$200m to \$184m while other income and revenue received decreased from \$600m to \$158m in 2016-2017.  
 Medium-sized social service charities raised \$14m in other income and revenue in 2017, a decrease from the previous year. They also raised around \$10m in donations and bequests, a slight decrease from the previous year. Reported income from government grants was \$17m, which was a slight decrease from 2016.  
 Small social service charities received just around \$5m in other income and revenue, little change from 2016. They also raised \$7.3m from donations and bequests, a slight increase from \$7.1m in the previous year. Small social service charities also received around \$3.9m from government grants, almost the same as the previous year. 
+\newpage
 
 ## Financial Health of Sector
 
@@ -297,6 +329,8 @@ Charities whose main activity was law and legal services were more likely to ope
 
 This report visualised the 2016 and 2017 ACNC datasets for Victoria charities and not-for-profit organisations, which is a strong and fast growing industry, particularly the social services industry. Social services industry is a key component of Victorian economy and also a key employer. It consists of thousands of charities, employing tens of thousands of staff and having thousands of volunteers. It is a billion dollar sector receiving a large amount of income from governments, donations and other revenue (eg. Service fees). The financial support from government contributes to the growth of the sector.  
 As the charitable and not-for-profit social services sector is so large and the nature of the data is a summary of surveyed reportings, it was necessary that analysis of the data began with exploratory techniques in the form of visualisations.
+
+\newpage
 
 ## Interpretation of Results
 
@@ -330,7 +364,8 @@ The project also only considered one data source; ACNC data in 2016 and 2017. Th
 
 ## Summary
 
-
+The visualisations effectively explored the ACNC data in 2016 and 2017 to facilitate industry-relevant analysis. Amongst the findings were that a large proportion of charities perform social services, that the number of volunteers in social services is greater than all paid staff, that budget deficits are common throughout charities of all sizes, and that the sector is reliant on government grants.  
+The study is limited in its scope to ACNC data, as well as the variety of ways in which visualisations were produced using the data. Future improvements can be made to this report by expanding the years captured by ACNC data as well as sourcing other datasets.
 
 \newpage
 \setstretch{1.125}
