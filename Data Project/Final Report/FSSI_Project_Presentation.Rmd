@@ -1,0 +1,70 @@
+---
+title:  "Future Social Services Institute<br>(FSSI)<br>Visualising Victorian Social Services Charities"
+author: "Xuejiao Zhou and Ben Cole<br>s3741909 and s3412349"
+date: "14/06/2020"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+---
+
+
+## Introduction 
+
+The Victorian social services industry is a significant component of Victoria’s economy and a key employer. It supports people facing poverty and disadvantage and is likely to continue to grow in terms of number of employees, income received and money spent due to a multitude of factors as the Victorian population changes over the coming years.
+
+### Objective 
+
+Develop an interactive data visualisation report that explores trends and changes between ACNC datasets for 2016 and 2017.
+
+## Methodology
+
+### Data Source
+
+- Australian Charities and Not-for-profit Commission (***ACNC***) data
+- 2016 and 2017
+
+### Data cleaning
+
+- None on 2016 prior to project
+    - Supplied by VCOSS
+- 2017 data sourced from ACNC website
+    - cleaned to VCOSS standards for consistency
+
+### Removing Invalid ABNs
+
+- Both 2016 and 2017 data sets contained invalid ABNs
+    - Identified with the ABN website
+- Invalid ABNs typically linked to ACNC reporting groups
+
+## Methodology
+
+### Digital Report
+
+- Rmarkdown .html format
+- All visualisations fully interactive for the user
+    - pairing `ggplot` and `plotly`
+
+### Stakeholder Engagement
+
+- Regular meetings with industry group
+- Ensured digital report was fit for purpose throughout all stages of development
+
+## Results
+
+### Social Services Sector Size
+
+
+
+### Workforce Composition
+
+### Sector Funding
+
+### Financial Health of Sector
+
+## Limitations & Recommendations
+
+- Further visualisations could have been produced exploring bivariate continuous data visualisations, such as scatter plots  
+- Using frames of a plotly animation to see changes over time.  
+- The project also only considered one data source; ACNC data in 2016 and 2017. There is scope for further data to be sourced or collected to gain further understanding of the contribution that charities make to the social services sector.  
+- Furthermore, as the data only pertained to charities and not-for-profits, it was not possible to quantify the impact of charities on the entire sector. Data from other sources would facilitate this comparison, for example allowing comparisons to be drawn to for-profit businesses also offering social services
