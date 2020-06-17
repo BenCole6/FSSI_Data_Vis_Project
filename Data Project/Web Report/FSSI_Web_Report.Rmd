@@ -1,5 +1,5 @@
 ---
-title: "Social Services Charities in Victoria"
+title: "Social Service Charities in Victoria"
 output:
   html_document:
     fig_height: 7
@@ -347,9 +347,9 @@ VCOSS_ACNC_18 <- VCOSS_ACNC_18[which(!(VCOSS_ACNC_18$abn %in% Invalid_ABNs_18$ab
 
 # Foreword
 
-The social services sector in Victoria is a multi billion dollar sector providing a range of services with the common focus of reducing poverty and disadvantage experienced by Victorians. The sector employs thousands of Victorians, making a substantial contribution to the state economy. There are a large number of charities and not-for-profit organisations that operate within the social services sector in Victoria, often deriving funding from very different sources than that of their privately-run counterparts.  
+The social service sector in Victoria is a multi billion dollar sector providing a range of services with the common focus of reducing poverty and disadvantage experienced by Victorians. The sector employs thousands of Victorians, making a substantial contribution to the state economy. There are a large number of charities and not-for-profit organisations that operate within the social service sector in Victoria, often deriving funding from very different sources than that of their privately-run counterparts.  
 
-As the social services sector in Victoria is so large and complex, this report dives into the data to better understand its composition and characteristics. This report and its data visualisations make use of data provided by the [Australian Charities and Not-for-profits Commission (ACNC)](https://www.acnc.gov.au) to examine the impact of charities and not-for-profit organisations in the social services sector in Victoria. This report also looks at changes in the nature of the charities and not-for-profits in the social services sector between 2016 and 2017.
+As the social service sector in Victoria is so large and complex, this report dives into the data to better understand its composition and characteristics. This report and its data visualisations make use of data provided by the [Australian Charities and Not-for-profits Commission (ACNC)](https://www.acnc.gov.au) to examine the impact of charities and not-for-profit organisations in the social service sector in Victoria. This report also looks at changes in the nature of the charities and not-for-profits in the social service sector between 2016 and 2017.
 
 ## Data
 
@@ -474,7 +474,7 @@ Count_MainAct_18 <- arrange(Count_MainAct_18, desc(Count))
 
 ```
 
-Charities operating in the social services sector comprised more than one out of every five charities operating in Victoria in 2016 and 2017. In 2016 this was `r comma(SocServ16, 1)` charities, which decreased slightly in 2017 to `r comma(SocServ17, 1)` (`r percent(SocServ16 / TotalCount16, 0.1)` and `r percent(SocServ17 / TotalCount17, 0.1)` of total charities, respectively). In 2018 the number of social services charities decreased again to `r comma(SocServ18, 1)` (`r percent(SocServ18 / TotalCount18, 0.1)`), which was in line with a decrease across all charities (`r comma(TotalCount18, 1)` total charities).   
+Charities operating in the social service sector comprised more than one out of every five charities operating in Victoria in 2016 and 2017. In 2016 this was `r comma(SocServ16, 1)` charities, which decreased slightly in 2017 to `r comma(SocServ17, 1)` (`r percent(SocServ16 / TotalCount16, 0.1)` and `r percent(SocServ17 / TotalCount17, 0.1)` of total charities, respectively). In 2018 the number of social service charities decreased again to `r comma(SocServ18, 1)` (`r percent(SocServ18 / TotalCount18, 0.1)`), which was in line with a decrease across all charities (`r comma(TotalCount18, 1)` total charities).   
 
 In 2016, the largest number of charities were working in the `r Count_MainAct_16$main_activity_2016[1]` sector with `r Count_MainAct_16$main_activity_2016[2]` recording the second-most number of charities at `r comma(Count_MainAct_16$Count[2], 1)`. These figures changed in 2017, with `r Count_MainAct_17$main_activity[1]` recording the greatest number of charities at `r comma(Count_MainAct_17$Count[1], 1)` while `r Count_MainAct_17$main_activity[2]` decreased slightly at `r comma(Count_MainAct_17$Count[2], 1)` charities.
 
@@ -482,7 +482,7 @@ In 2016 and 2017,  small charities had a higher share than medium and large char
 
 ## Yearly Totals {.tabset .tabset-pills}
 
-### Social Services and all other Sectors
+### Social Service and all other Sectors
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -558,7 +558,7 @@ ggplotly(gg2_Counts_678,
          tooltip = "text") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12),
-         title = list(text = "Number of Victorian Charities in Social Services and Other Sectors",
+         title = list(text = "Number of Victorian Charities in Social Service and Other Sectors",
                       xref = "canvas",
                       x = 0.1),
          legend = list(title = list(text = "Sector",
@@ -643,7 +643,7 @@ ggplotly(gg_Vic_Char_Count_678,
 
 ```
 
-## Change in Social Services Charity Sizes
+## Change in Social Service Charity Sizes
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -711,7 +711,7 @@ ggplotly(gg_Sum_VIC_SocServ_678,
          tooltip = "text") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12),
-         title = list(text = "Number of Social Services Charities, 2016 to 2018",
+         title = list(text = "Number of Social Service Charities, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -727,7 +727,7 @@ ggplotly(gg_Sum_VIC_SocServ_678,
 
 From 2016 to 2017, the dominant staff type was changed from part-time to full-time. The number of casual staff was the smallest in 2016 and 2017 compared with other staff types. A slight decrease of 4.7% in number of casual employees was seen in the period of 2016 to 2017; from 36,868 to 36,551 respectively. There were changes in the number of part-time employees and the number of full-time employees as well. The number of part-time employees decreased from 67,131 to 63,140 (10.4% drop) and the number of full-time employees increased from 46,516 to 84,849 (15.1% increase).
 
-Social services charities had the largest number of total employees as well as full-time and casual type employees in 2016 but in 2017, the largest number of staff were in aged care charities. The number of staff in social services charities accounted for 23.45% of total number of charity staff in 2016 and increased slightly to 23.53% in 2017. Conversely, the total number of staff in organizations performing aged care activities increased from 20.2% to 24.6%. Other health service delivery charities saw the second largest number of employees and aged care activities had the third largest number of employees, which were 32,574 and 30,418 respectively in 2016. Things changed in 2017 while social services sectors and other education sectors were in the second and third place regarding to numbers of staffs. Income support and maintenance and civic and advocacy activities are seen having the smallest proportions of staffs.
+Social services charities had the largest number of total employees as well as full-time and casual type employees in 2016 but in 2017, the largest number of staff were in aged care charities. The number of staff in social service charities accounted for 23.45% of total number of charity staff in 2016 and increased slightly to 23.53% in 2017. Conversely, the total number of staff in organizations performing aged care activities increased from 20.2% to 24.6%. Other health service delivery charities saw the second largest number of employees and aged care activities had the third largest number of employees, which were 32,574 and 30,418 respectively in 2016. Things changed in 2017 while social service sectors and other education sectors were in the second and third place regarding to numbers of staffs. Income support and maintenance and civic and advocacy activities are seen having the smallest proportions of staffs.
 
 ## Employees {.tabset .tabset-pills}
 
@@ -822,7 +822,7 @@ gg_SocServ_Staff_MainAct_678 <- ggplot(SocServ_Staff_MainAct_678,
 
 ggplotly(gg_SocServ_Staff_MainAct_678,
          tooltip = "text") %>% 
-  layout(title = list(text = "Changes in Staff Counts by Work Loading in Social Services, 2016 to 2018",
+  layout(title = list(text = "Changes in Staff Counts by Work Loading in Social Service, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -986,7 +986,7 @@ pl_SocServ_Staff_CharSize_1617_prop <- ggplotly(gg_SocServ_Staff_CharSize_1617_p
 
 subplot(pl_SocServ_Staff_CharSize_1617, pl_SocServ_Staff_CharSize_1617_prop,
         nrows = 2, margin = 0.075) %>% 
-  layout(title = list(text = "Social Services Staff Employment Types per Charity Size",
+  layout(title = list(text = "Social Service Staff Employment Types per Charity Size",
                       xref = "canvas",
                       x = 0.1),
          yaxis = list(title = list(text = "Charity Size")),
@@ -1173,7 +1173,7 @@ ggplotly(gg_SocServ_Volunteers_PaidStaff_678,
                                     font = list(size = 14)),
                        itemclick = "toggleothers",
                        itemdoubleclick = "toggle"),
-         title = list(text = "Volunteers and Paid Staff Working for Social Services, 2016 to 2018",
+         title = list(text = "Volunteers and Paid Staff Working for Social Service, 2016 to 2018",
                       xref = "canvas",
                       x = 0.1),
          margin = list(t = 50,
@@ -1216,7 +1216,7 @@ plot_ly(data = filter(Volunteers_PaidStaff_678_long,
                                  "rgb(77, 234, 229"),
                       line = list(color = "#cecece",
                                   width = 0.85))) %>% 
-  layout(title = list(text = "Volunteer Workforce Share for Social Services, 2016 to 2017",
+  layout(title = list(text = "Volunteer Workforce Share for Social Service, 2016 to 2017",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -1615,13 +1615,13 @@ pl_SocServ_Revenue678 <- ggplotly(gg_SocServ_Revenue678,
 
 subplot(pl_Other_Revenue678, pl_SocServ_Revenue678,
         nrows = 1, shareY = TRUE) %>% 
-  layout(title = list(text = "Victorian Social Services Revenue Sources, 2016 to 2018",
+  layout(title = list(text = "Victorian Social Service Revenue Sources, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
          xaxis = list(title = list(text = "Year\nOther Sectors",
                                    font = list(size = 13))),
-         xaxis2 = list(title = list(text = "Year\nSocial Services",
+         xaxis2 = list(title = list(text = "Year\nSocial Service",
                                    font = list(size = 13))),
          legend = list(title = list(text = "Charity Size",
                                     standoff = 10,
@@ -1774,7 +1774,7 @@ pl_SocServ_FundingSources_CharSize_678 <- ggplotly(gg_SocServ_FundingSources_Cha
                      size = 12),
          yaxis = list(title = list(text = "Charity Size",
                                    standoff = 10)),
-         title = list(text = "Social Services Funding Sources for each Charity Size",
+         title = list(text = "Social Service Funding Sources for each Charity Size",
                       xref = "canvas",
                       x = 0.1),
          margin = list(t = 55))
@@ -1914,7 +1914,7 @@ subplot(pl_FundingSources_CharSize_678,
                        itemclick = "toggleothers",
                       itemdoubleclick = "toggle"),
          yaxis = list(title = list(text = "Charity Size\nOther Sectors")),
-         yaxis2 = list(title = list(text = "Charity Size\nSocial Services")),
+         yaxis2 = list(title = list(text = "Charity Size\nSocial Service")),
          xaxis4 = list(title = "Funding Proportion"),
          xaxis5 = list(title = "Funding Proportion"),
          xaxis6 = list(title = "Funding Proportion"))
@@ -2215,13 +2215,13 @@ SocServ_grantsout18 <- sum(filter(VCOSS_ACNC_18,
 
 ```
 
-The Social Services sector had the second-highest percentage of charities and not-for-profit organisations running a budget deficit in 2016 (38.2%) as well as in 2017 (39.4%). This is compared to `r percent(prop_charities_deficit16, 0.1)` of all other charities running a budget deficit in 2016 and `r percent(prop_charities_deficit17, 0.1)` of all other charities in deficit in 2017.  
-Compared to other sectors such as *International Activities* and *Other Education*, charities performing Social Services receive a relatively low amount of funding for grants and donations to be used in Australia or outside of Australia. Noticeably, the amount of grants and donations for use outside of Australia by Social Services increased from `r dollar(SocServ_grantsout16)` in 2016 to `r dollar(SocServ_grantsout17)` in 2017; a `r round(SocServ_grantsout17 / SocServ_grantsout16, 1)` fold increase between years.
+The Social Service sector had the second-highest percentage of charities and not-for-profit organisations running a budget deficit in 2016 (38.2%) as well as in 2017 (39.4%). This is compared to `r percent(prop_charities_deficit16, 0.1)` of all other charities running a budget deficit in 2016 and `r percent(prop_charities_deficit17, 0.1)` of all other charities in deficit in 2017.  
+Compared to other sectors such as *International Activities* and *Other Education*, charities performing Social Service receive a relatively low amount of funding for grants and donations to be used in Australia or outside of Australia. Noticeably, the amount of grants and donations for use outside of Australia by Social Service charities increased from `r dollar(SocServ_grantsout16)` in 2016 to `r dollar(SocServ_grantsout17)` in 2017; a `r round(SocServ_grantsout17 / SocServ_grantsout16, 1)` fold increase between years.
 
 
 ## Budget Status {.tabset .tabset-pills}
 
-### Social Services
+### Social Service
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -2300,7 +2300,7 @@ gg_SocServ_DebtSurplus <- ggplot(SocServ_DebtSurplus_MainAct_678_long,
 
 ggplotly(gg_SocServ_DebtSurplus,
          tooltip = "text") %>% 
-  layout(title = list(text = "Count of Social Services Charities by Budget Status, 2016 - 2017",
+  layout(title = list(text = "Count of Social Service Charities by Budget Status, 2016 - 2017",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -2314,7 +2314,7 @@ ggplotly(gg_SocServ_DebtSurplus,
 
 ```
 
-### Social Services Budget Status per Charity Size
+### Social Service Budget Status per Charity Size
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -2422,7 +2422,7 @@ subplot(pl_SocServ_DebtSurplus_CharSize_678,
         pl_SocServ_DebtSurplus_CharSize_678_prop,
         nrows = 2,
         margin = 0.066) %>% 
-  layout(title = list(text = "Social Services Budget status by Charity Size, 2016 to 2017",
+  layout(title = list(text = "Social Service Budget status by Charity Size, 2016 to 2017",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -2713,7 +2713,7 @@ ggplotly(gg_Grants_MainAct_678,
 ```
 
 
-### Social Services
+### Social Service
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -2795,7 +2795,7 @@ gg_Grants_InOut_MainAct_678 <- ggplot(Grants_InOut_MainAct_678_long,
 
 ggplotly(gg_Grants_InOut_MainAct_678,
          tooltip = "text") %>% 
-  layout(title = list(text = "Grant Use for Social Services, 2016 to 2017",
+  layout(title = list(text = "Grant Use for Social Service, 2016 to 2017",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
