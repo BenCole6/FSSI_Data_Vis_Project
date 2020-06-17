@@ -208,6 +208,62 @@ VCOSS_ACNC_17$main_activity <- if_else(str_detect(VCOSS_ACNC_17$main_activity,
 
 ```
 
+```{r, warning=FALSE, echo=FALSE, message=FALSE}
+
+# Reading in 2018 data and cleaning it to VCOSS standards
+
+ACNC_18 <- clean_names(read_excel("ACNC Data/ACNC_ais18.xlsx"))
+
+VCOSS_ACNC_18 <- filter(ACNC_18,
+                        str_detect(state,
+                                   regex("vic|victoria",
+                                         ignore_case = TRUE)))
+
+VCOSS_ACNC_18$state <- "Vic"
+
+colnames(VCOSS_ACNC_18)[which(str_detect(colnames(VCOSS_ACNC_18), "government"))] <- "government_grants"
+
+vcoss_colnames <- colnames(VCOSS_ACNC_16)
+
+vcoss_colnames <- str_remove_all(vcoss_colnames,
+                                 pattern = "_2016")
+
+vcoss_colnames <- vcoss_colnames[which(!str_detect(vcoss_colnames, "ABN_Validation"))]
+
+VCOSS_ACNC_18 <- select(VCOSS_ACNC_18,
+                        vcoss_colnames)
+
+for(col_name in colnames(VCOSS_ACNC_18)) {
+  
+  if(c("n", "y") %in% unique(VCOSS_ACNC_18[[col_name]]) == c(TRUE, TRUE)) {
+    
+    VCOSS_ACNC_18[[col_name]] <- recode(VCOSS_ACNC_18[[col_name]],
+                                        "n" = FALSE,
+                                        "y" = TRUE)
+    
+    
+    
+  }
+}
+
+## Cleaning main_activity
+
+VCOSS_ACNC_18 <- filter(VCOSS_ACNC_18,
+                        !str_detect(main_activity,
+                                   regex("religious", ignore_case = TRUE)),
+                        !is.na(main_activity))
+
+VCOSS_ACNC_18$main_activity <- str_cleaner(VCOSS_ACNC_18$main_activity)
+
+VCOSS_ACNC_18$main_activity <- str_replace_all(VCOSS_ACNC_18$main_activity,
+                                               pattern = regex("emergency and relief",
+                                                               ignore_case = TRUE),
+                                               replacement = "Emergency Relief")
+
+VCOSS_ACNC_18 <- filter(VCOSS_ACNC_18,
+                        main_activity %in% VCOSS_ACNC_16$main_activity_2016)
+
+```
 
 ```{r, warning=FALSE, echo=FALSE, message=FALSE}
 
@@ -273,6 +329,11 @@ VCOSS_ACNC_17 <- mutate(VCOSS_ACNC_17,
 Invalid_ABNs_17 <- filter(VCOSS_ACNC_17,
                           ABN_Validation == "Invalid ABN")
 
+VCOSS_ACNC_18 <- mutate(VCOSS_ACNC_18,
+                        ABN_Validation = ABN_Validator(abn))
+
+Invalid_ABNs_18 <- filter(VCOSS_ACNC_18,
+                          ABN_Validation == "Invalid ABN")
 
 ## Filter out invalid ABNs from VCOSS dataframes
 
@@ -280,6 +341,7 @@ VCOSS_ACNC_16 <- VCOSS_ACNC_16[which(!(VCOSS_ACNC_16$abn %in% Invalid_ABNs_16$ab
 
 VCOSS_ACNC_17 <- VCOSS_ACNC_17[which(!(VCOSS_ACNC_17$abn %in% Invalid_ABNs_17$abn)), ]
 
+VCOSS_ACNC_18 <- VCOSS_ACNC_18[which(!(VCOSS_ACNC_18$abn %in% Invalid_ABNs_18$abn)), ]
 
 ```
 
@@ -302,7 +364,9 @@ To better understand the structure of the data, click on the tabs below to see t
 
 ### Preview of Datasets {.tabset .tabset-fade}
 
-#### 2016 ACNC Data - Victorian Charities
+Each of the below datasets are extracts of the ACNC datasets for Victorian charities.
+
+#### 2016 ACNC Data
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -322,7 +386,7 @@ datatable(head(arrange(VCOSS_ACNC_16, desc(total_revenue_2016)), 30),
 
 ```
 
-#### 2017 ACNC Data - Victorian Charities
+#### 2017 ACNC Data
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -342,6 +406,26 @@ datatable(head(arrange(VCOSS_ACNC_17, desc(total_revenue_2017)), 30),
 
 ```
 
+#### 2018 ACNC Data
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+VCOSS_ACNC_18_prettycolnames <- str_cleaner(str_replace_all(colnames(VCOSS_ACNC_18),
+                                                            pattern = "_", replacement = " "))
+
+datatable(head(arrange(VCOSS_ACNC_18, desc(total_revenue)), 30),
+          rownames = FALSE, colnames = VCOSS_ACNC_18_prettycolnames,
+          class = "display compact",
+          options = list(bFilter = FALSE,
+                         lengthChange = FALSE,
+                         scrollY = "400px",
+                         scrollX = "600px")) %>% 
+  formatStyle(fontSize = "12px",
+              columns = 0:ncol(VCOSS_ACNC_18),
+              mark = ",", interval = 3)
+
+```
+
 ### How to make the most of this report
 
 The below visualisations are all fully interactive; allowing you to focus and reset all of the elements that comprise each plot. Let your curiosity flow; click on legends to remove all other entries, double click legends to remove that individual entry, click and hold to zoom, use sliders to change year, reset and autoscale axes using the fading menu towards the top right.
@@ -352,29 +436,45 @@ The below visualisations are all fully interactive; allowing you to focus and re
 
 ## Creating counts for below text
 
+### 2016
+
 Count_MainAct_16 <- summarise(group_by(VCOSS_ACNC_16,
                                        main_activity_2016),
-                              Count = n())
-
-Count_MainAct_17 <- summarise(group_by(VCOSS_ACNC_17,
-                                       main_activity),
                               Count = n())
 
 SocServ16 <- Count_MainAct_16$Count[which(str_detect(Count_MainAct_16$main_activity_2016, "Social Services"))]
 
 TotalCount16 <- sum(Count_MainAct_16$Count)
 
+Count_MainAct_16 <- arrange(Count_MainAct_16, desc(Count))
+
+### 2017
+
+Count_MainAct_17 <- summarise(group_by(VCOSS_ACNC_17,
+                                       main_activity),
+                              Count = n())
+
 SocServ17 <- Count_MainAct_17$Count[which(str_detect(Count_MainAct_17$main_activity, "Social Services"))]
 
 TotalCount17 <- sum(Count_MainAct_17$Count)
 
-Count_MainAct_16 <- arrange(Count_MainAct_16, desc(Count))
-
 Count_MainAct_17 <- arrange(Count_MainAct_17, desc(Count))
+
+### 2018
+
+Count_MainAct_18 <- summarise(group_by(VCOSS_ACNC_18,
+                                       main_activity),
+                              Count = n())
+
+SocServ18 <- Count_MainAct_18$Count[which(str_detect(Count_MainAct_18$main_activity, "Social Services"))]
+
+TotalCount18 <- sum(Count_MainAct_18$Count)
+
+Count_MainAct_18 <- arrange(Count_MainAct_18, desc(Count))
 
 ```
 
-Charities operating in the social services sector comprise more than one out of every five charities operating in Victoria. In 2016 this was `r comma(SocServ16, 1)` charities, which decreased slightly in 2017 to `r comma(SocServ17, 1)` (`r percent(SocServ16 / TotalCount16, 0.1)` and `r percent(SocServ17 / TotalCount17, 0.1)` of total charities, respectively).  
+Charities operating in the social services sector comprised more than one out of every five charities operating in Victoria in 2016 and 2017. In 2016 this was `r comma(SocServ16, 1)` charities, which decreased slightly in 2017 to `r comma(SocServ17, 1)` (`r percent(SocServ16 / TotalCount16, 0.1)` and `r percent(SocServ17 / TotalCount17, 0.1)` of total charities, respectively). In 2018 the number of social services charities decreased again to `r comma(SocServ18, 1)` (`r percent(SocServ18 / TotalCount18, 0.1)`), which was in line with a decrease across all charities (`r comma(TotalCount18, 1)` total charities).   
 
 In 2016, the largest number of charities were working in the `r Count_MainAct_16$main_activity_2016[1]` sector with `r Count_MainAct_16$main_activity_2016[2]` recording the second-most number of charities at `r comma(Count_MainAct_16$Count[2], 1)`. These figures changed in 2017, with `r Count_MainAct_17$main_activity[1]` recording the greatest number of charities at `r comma(Count_MainAct_17$Count[1], 1)` while `r Count_MainAct_17$main_activity[2]` decreased slightly at `r comma(Count_MainAct_17$Count[2], 1)` charities.
 
@@ -416,11 +516,26 @@ Counts_2017 <- summarise(group_by(Counts_2017,
 
 Counts_2017$Year <- 2017
 
-Counts_1617 <- rbind(Counts_2016, Counts_2017)
+# 2017
 
-Counts_1617$Year <- as.ordered(Counts_1617$Year)
+Counts_2018 <- mutate(VCOSS_ACNC_18,
+                      Soc_Serv_Bool = if_else(str_detect(main_activity, 
+                                                         regex("social services",
+                                                               ignore_case = TRUE)),
+                                              true = "Social Services",
+                                              false = "Other sectors"))
 
-gg2_Counts_1617 <- ggplot(Counts_1617,
+Counts_2018 <- summarise(group_by(Counts_2018,
+                                  Soc_Serv_Bool),
+                         Count = n())
+
+Counts_2018$Year <- 2018
+
+Counts_678 <- rbind(Counts_2016, Counts_2017, Counts_2018)
+
+Counts_678$Year <- as.ordered(Counts_678$Year)
+
+gg2_Counts_678 <- ggplot(Counts_678,
        aes(x = Year,
            y = Count,
            col = Soc_Serv_Bool,
@@ -439,7 +554,7 @@ gg2_Counts_1617 <- ggplot(Counts_1617,
                       values = c(FSSIQualSingle(2), FSSIGreenSingle)) +
   theme_minimal()
 
-ggplotly(gg2_Counts_1617,
+ggplotly(gg2_Counts_678,
          tooltip = "text") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12),
@@ -460,12 +575,7 @@ ggplotly(gg2_Counts_1617,
 
 # Bringing 2016 and 2017 together for a bar chart
 
-Vic_Char_Count17 <- summarise(group_by(VCOSS_ACNC_17,
-                                       main_activity = as.factor(main_activity),
-                                       .drop = FALSE),
-                              "Count" = n())
-
-Vic_Char_Count17$Year <- 2017
+## 2016
 
 Vic_Char_Count16 <- summarise(group_by(VCOSS_ACNC_16,
                                        main_activity = as.factor(main_activity_2016)),
@@ -473,17 +583,34 @@ Vic_Char_Count16 <- summarise(group_by(VCOSS_ACNC_16,
 
 Vic_Char_Count16$Year <- 2016
 
-Vic_Char_Count_1617 <- rbind(Vic_Char_Count16, Vic_Char_Count17)
+## 2017
 
-Vic_Char_Count_1617$Year <- as.ordered(Vic_Char_Count_1617$Year)
+Vic_Char_Count17 <- summarise(group_by(VCOSS_ACNC_17,
+                                       main_activity = as.factor(main_activity),
+                                       .drop = FALSE),
+                              "Count" = n())
 
-Vic_Char_Count_1617 <- replace_na(Vic_Char_Count_1617,
+Vic_Char_Count17$Year <- 2017
+
+## 2018
+
+Vic_Char_Count18 <- summarise(group_by(VCOSS_ACNC_18,
+                                       main_activity = as.factor(main_activity)),
+                              "Count" = n())
+
+Vic_Char_Count18$Year <- 2018
+
+Vic_Char_Count_678 <- rbind(Vic_Char_Count16, Vic_Char_Count17, Vic_Char_Count18)
+
+Vic_Char_Count_678$Year <- as.ordered(Vic_Char_Count_678$Year)
+
+Vic_Char_Count_678 <- replace_na(Vic_Char_Count_678,
                                   replace = list(main_activity = "Not Specified"))
 
 
 ## bar chart
 
-gg_Vic_Char_Count_1617 <- ggplot(Vic_Char_Count_1617,
+gg_Vic_Char_Count_678 <- ggplot(Vic_Char_Count_678,
                                  aes(x = Year, y = Count,
                                      group = main_activity, col = str_wrap(main_activity, width = 25),
                                      text = paste(sep = "\n",
@@ -495,15 +622,15 @@ gg_Vic_Char_Count_1617 <- ggplot(Vic_Char_Count_1617,
                      labels = comma) +
   scale_x_discrete(expand = c(0.05, 0.05)) +
   scale_colour_manual("",
-                      values = c(rep(FSSIQualSingle(2), length(unique(Vic_Char_Count_1617$main_activity))-1),
+                      values = c(rep(FSSIQualSingle(2), length(unique(Vic_Char_Count_678$main_activity))-1),
                                  FSSIGreenSingle)) +
   theme_minimal()
 
-ggplotly(gg_Vic_Char_Count_1617,
+ggplotly(gg_Vic_Char_Count_678,
          tooltip = "text") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12),
-         title = list(text = "Number of Victorian Charities per Main Activity, 2016 and 2017",
+         title = list(text = "Number of Victorian Charities per Main Activity, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -520,15 +647,7 @@ ggplotly(gg_Vic_Char_Count_1617,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-## TODO: this too
-
-VIC_SocServ17 <- filter(VCOSS_ACNC_17,
-                        str_detect(main_activity, regex("social services", ignore_case = TRUE)))
-
-VIC_SocServ17$Year <- 2017
-
-VIC_SocServ17 <- select(VIC_SocServ17,
-                        main_activity, charity_size, Year)
+# 2016 
 
 VIC_SocServ16 <- filter(VCOSS_ACNC_16,
                         str_detect(main_activity_2016, regex("social services", ignore_case = TRUE)))
@@ -539,15 +658,35 @@ VIC_SocServ16 <- select(VIC_SocServ16,
                         main_activity = main_activity_2016,
                         charity_size, Year)
 
-VIC_SocServ_1617 <- rbind(VIC_SocServ16, VIC_SocServ17)
+# 2017
 
-VIC_SocServ_1617$Year <- as.ordered(VIC_SocServ_1617$Year)
+VIC_SocServ17 <- filter(VCOSS_ACNC_17,
+                        str_detect(main_activity, regex("social services", ignore_case = TRUE)))
 
-Sum_VIC_SocServ_1617 <- summarise(group_by(VIC_SocServ_1617,
+VIC_SocServ17$Year <- 2017
+
+VIC_SocServ17 <- select(VIC_SocServ17,
+                        main_activity, charity_size, Year)
+
+# 2018
+
+VIC_SocServ18 <- filter(VCOSS_ACNC_18,
+                        str_detect(main_activity, regex("social services", ignore_case = TRUE)))
+
+VIC_SocServ18$Year <- 2018
+
+VIC_SocServ18 <- select(VIC_SocServ18,
+                        main_activity, charity_size, Year)
+
+VIC_SocServ_678 <- rbind(VIC_SocServ16, VIC_SocServ17, VIC_SocServ18)
+
+VIC_SocServ_678$Year <- as.ordered(VIC_SocServ_678$Year)
+
+Sum_VIC_SocServ_678 <- summarise(group_by(VIC_SocServ_678,
                                            Year, charity_size),
                                   n_Charities = n())
 
-gg_Sum_VIC_SocServ_1617 <- ggplot(Sum_VIC_SocServ_1617,
+gg_Sum_VIC_SocServ_678 <- ggplot(Sum_VIC_SocServ_678,
                                   aes(x = Year, y = n_Charities,
                                       col = fct_rev(charity_size),
                                       group = fct_rev(charity_size),
@@ -559,7 +698,7 @@ gg_Sum_VIC_SocServ_1617 <- ggplot(Sum_VIC_SocServ_1617,
   stat_summary(fun.y = sum, geom = "line") +
   scale_y_continuous("Number of Charities",
                      labels = comma,
-                     limits = c(0, max(Sum_VIC_SocServ_1617$n_Charities)*1.1),
+                     limits = c(0, max(Sum_VIC_SocServ_678$n_Charities)*1.1),
                      breaks = extended_breaks(6)) +
   scale_x_discrete("Year",
                    expand = c(0.075, 0.075)) +
@@ -568,11 +707,11 @@ gg_Sum_VIC_SocServ_1617 <- ggplot(Sum_VIC_SocServ_1617,
   theme_minimal() +
   theme(panel.grid.minor = element_blank())
 
-ggplotly(gg_Sum_VIC_SocServ_1617,
+ggplotly(gg_Sum_VIC_SocServ_678,
          tooltip = "text") %>% 
   layout(font = list(family = FSSIfont,
                      size = 12),
-         title = list(text = "Number of Social Services Charities, 2016 to 2017",
+         title = list(text = "Number of Social Services Charities, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -596,6 +735,8 @@ Social services charities had the largest number of total employees as well as f
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+# 2016
+
 SocServ_Staff_MainAct16 <- summarise(group_by(filter(VCOSS_ACNC_16,
                                                      str_detect(main_activity_2016,
                                                                 regex("social services", ignore_case = TRUE))),
@@ -613,6 +754,7 @@ SocServ_Staff_MainAct16_long <- pivot_longer(SocServ_Staff_MainAct16,
 
 SocServ_Staff_MainAct16_long$Year <- 2016
 
+# 2017
 
 SocServ_Staff_MainAct17 <- summarise(group_by(filter(VCOSS_ACNC_17,
                                                      str_detect(main_activity,
@@ -631,11 +773,32 @@ SocServ_Staff_MainAct17_long <- pivot_longer(SocServ_Staff_MainAct17,
 
 SocServ_Staff_MainAct17_long$Year <- 2017
 
-SocServ_Staff_MainAct_1617 <- rbind(SocServ_Staff_MainAct16_long, SocServ_Staff_MainAct17_long)
+# 2018
 
-SocServ_Staff_MainAct_1617$Year <- as.ordered(SocServ_Staff_MainAct_1617$Year)
+SocServ_Staff_MainAct18 <- summarise(group_by(filter(VCOSS_ACNC_18,
+                                                     str_detect(main_activity,
+                                                                regex("social services", ignore_case = TRUE))),
+                                              main_activity),
+                                     full_time = sum(staff_full_time, na.rm = TRUE),
+                                     part_time = sum(staff_part_time, na.rm = TRUE),
+                                     casual = sum(staff_casual, na.rm = TRUE))
 
-gg_SocServ_Staff_MainAct_1617 <- ggplot(SocServ_Staff_MainAct_1617,
+SocServ_Staff_MainAct18_long <- pivot_longer(SocServ_Staff_MainAct18,
+                                             cols = c(full_time,
+                                                      part_time,
+                                                      casual),
+                                             names_to = "employment_type",
+                                             values_to = "employee_count")
+
+SocServ_Staff_MainAct18_long$Year <- 2018
+
+SocServ_Staff_MainAct_678 <- rbind(SocServ_Staff_MainAct16_long,
+                                   SocServ_Staff_MainAct17_long,
+                                   SocServ_Staff_MainAct18_long)
+
+SocServ_Staff_MainAct_678$Year <- as.ordered(SocServ_Staff_MainAct_678$Year)
+
+gg_SocServ_Staff_MainAct_678 <- ggplot(SocServ_Staff_MainAct_678,
                                         aes(x = Year,
                                             y = employee_count,
                                             col = str_clean_wrap(employment_type),
@@ -657,9 +820,9 @@ gg_SocServ_Staff_MainAct_1617 <- ggplot(SocServ_Staff_MainAct_1617,
   theme(strip.background = element_rect(fill = "grey90",
                                         colour = NA))
 
-ggplotly(gg_SocServ_Staff_MainAct_1617,
+ggplotly(gg_SocServ_Staff_MainAct_678,
          tooltip = "text") %>% 
-  layout(title = list(text = "Changes in Staff Counts by Work Loading in Social Services, 2016 to 2017",
+  layout(title = list(text = "Changes in Staff Counts by Work Loading in Social Services, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -685,26 +848,27 @@ ggplotly(gg_SocServ_Staff_MainAct_1617,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+# 2016
+
 SocServ_Staff_CharSize_16 <- summarise(group_by(filter(VCOSS_ACNC_16,
                                                      str_detect(main_activity_2016, 
                                                                  regex("social services", ignore_case = TRUE))),
                                               charity_size),
                                      staff_part_time = sum(staff_part_time_2016, na.rm = TRUE),
                                      staff_full_time = sum(staff_full_time_2016, na.rm = TRUE),
-                                     staff_casual = sum(staff_casual_2016, na.rm = TRUE),
-                                     staff_volunteers = sum(staff_volunteers_2016, na.rm = TRUE))
+                                     staff_casual = sum(staff_casual_2016, na.rm = TRUE))
 
 SocServ_Staff_CharSize_16 <- pivot_longer(SocServ_Staff_CharSize_16,
                                         cols = c(staff_part_time,
                                                  staff_full_time,
-                                                 staff_casual,
-                                                 staff_volunteers),
+                                                 staff_casual),
                                         names_to = "employment_type",
                                         values_to = "employee_count")
 
 
 SocServ_Staff_CharSize_16$Year <- 2016
 
+# 2017
 ## staff_casual_2017 and staff_volunteers are character variables
 
 VCOSS_ACNC_17$staff_casual_2017 <- as.numeric(VCOSS_ACNC_17$staff_casual_2017)
@@ -717,21 +881,48 @@ SocServ_Staff_CharSize_17 <- summarise(group_by(filter(VCOSS_ACNC_17,
                                               charity_size),
                                      staff_part_time = sum(staff_part_time_2017, na.rm = TRUE),
                                      staff_full_time = sum(staff_full_time_2017, na.rm = TRUE),
-                                     staff_casual = sum(as.numeric(staff_casual_2017), na.rm = TRUE),
-                                     staff_volunteers = sum(as.numeric(staff_volunteers), na.rm = TRUE))
+                                     staff_casual = sum(as.numeric(staff_casual_2017), na.rm = TRUE))
 
 
 SocServ_Staff_CharSize_17 <- pivot_longer(SocServ_Staff_CharSize_17,
                                         cols = c(staff_part_time,
                                                  staff_full_time,
-                                                 staff_casual,
-                                                 staff_volunteers),
+                                                 staff_casual),
                                         names_to = "employment_type",
                                         values_to = "employee_count")
 
 SocServ_Staff_CharSize_17$Year <- 2017
 
-SocServ_Staff_CharSize_1617 <- rbind(SocServ_Staff_CharSize_16, SocServ_Staff_CharSize_17)
+# 2018
+## staff_casual and staff_volunteers are character variables
+
+VCOSS_ACNC_18$staff_casual <- as.numeric(VCOSS_ACNC_18$staff_casual)
+
+VCOSS_ACNC_18$staff_volunteers <- as.numeric(VCOSS_ACNC_18$staff_volunteers)
+
+SocServ_Staff_CharSize_18 <- summarise(group_by(filter(VCOSS_ACNC_18,
+                                                     str_detect(main_activity,
+                                                                regex("social services", ignore_case = TRUE))),
+                                              charity_size),
+                                     staff_part_time = sum(staff_part_time, na.rm = TRUE),
+                                     staff_full_time = sum(staff_full_time, na.rm = TRUE),
+                                     staff_casual = sum(as.numeric(staff_casual), na.rm = TRUE))
+
+
+SocServ_Staff_CharSize_18 <- pivot_longer(SocServ_Staff_CharSize_18,
+                                        cols = c(staff_part_time,
+                                                 staff_full_time,
+                                                 staff_casual),
+                                        names_to = "employment_type",
+                                        values_to = "employee_count")
+
+SocServ_Staff_CharSize_18$Year <- 2018
+
+# binding
+
+SocServ_Staff_CharSize_1617 <- rbind(SocServ_Staff_CharSize_16,
+                                     SocServ_Staff_CharSize_17,
+                                     SocServ_Staff_CharSize_18)
 
 SocServ_Staff_CharSize_1617 <- mutate(group_by(SocServ_Staff_CharSize_1617,
                                              Year, charity_size),
@@ -748,7 +939,7 @@ gg_SocServ_Staff_CharSize_1617 <- ggplot(SocServ_Staff_CharSize_1617) +
            stat = "identity") +
   facet_rep_wrap(~Year) +
   scale_fill_manual("Employment Type",
-                    values = FSSIQualPal(7)[4:7]) +
+                    values = FSSIQualPal(6)[4:6]) +
   scale_y_discrete("") +
   scale_x_continuous("Number of Employees",
                      labels = comma) +
@@ -776,7 +967,7 @@ gg_SocServ_Staff_CharSize_1617_prop <- ggplot(SocServ_Staff_CharSize_1617) +
            show.legend = FALSE) +
   facet_rep_wrap(~Year) +
   scale_fill_manual("",
-                    values = FSSIQualPal(7)[4:7]) +
+                    values = FSSIQualPal(6)[4:6]) +
   scale_y_discrete("") +
   scale_x_continuous("Number of Employees",
                      labels = percent) +
@@ -821,11 +1012,15 @@ subplot(pl_SocServ_Staff_CharSize_1617, pl_SocServ_Staff_CharSize_1617_prop,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+# 2016
+
 Volunteers_MainAct_16 <- summarise(group_by(VCOSS_ACNC_16,
                                             main_activity = main_activity_2016),
                                    volunteers = sum(staff_volunteers_2016))
 
 Volunteers_MainAct_16$Year <- 2016
+
+# 2017
 
 Volunteers_MainAct_17 <- summarise(group_by(VCOSS_ACNC_17,
                                             main_activity),
@@ -833,11 +1028,23 @@ Volunteers_MainAct_17 <- summarise(group_by(VCOSS_ACNC_17,
 
 Volunteers_MainAct_17$Year <- 2017
 
-Volunteers_MainAct_1617 <- rbind(Volunteers_MainAct_16, Volunteers_MainAct_17)
+# 2018
 
-Volunteers_MainAct_1617$Year <- as.ordered(Volunteers_MainAct_1617$Year)
+Volunteers_MainAct_18 <- summarise(group_by(VCOSS_ACNC_18,
+                                            main_activity),
+                                   volunteers = sum(as.numeric(staff_volunteers)))
 
-gg_Volunteers_MainAct_1617 <- ggplot(Volunteers_MainAct_1617,
+Volunteers_MainAct_18$Year <- 2018
+
+# binding
+
+Volunteers_MainAct_678 <- rbind(Volunteers_MainAct_16,
+                                 Volunteers_MainAct_17,
+                                 Volunteers_MainAct_18)
+
+Volunteers_MainAct_678$Year <- as.ordered(Volunteers_MainAct_678$Year)
+
+gg_Volunteers_MainAct_678 <- ggplot(Volunteers_MainAct_678,
                                      aes(x = Year,
                                          y = volunteers,
                                          colour = str_clean_wrap(main_activity),
@@ -852,11 +1059,11 @@ gg_Volunteers_MainAct_1617 <- ggplot(Volunteers_MainAct_1617,
                      labels = comma) +
   scale_color_manual("Main Activity",
                      values = c(rep(FSSIQualSingle(2),
-                                    length(unique(Volunteers_MainAct_1617$main_activity))-1),
+                                    length(unique(Volunteers_MainAct_678$main_activity))-1),
                                 FSSIGreenSingle)) +
   theme_minimal()
 
-ggplotly(gg_Volunteers_MainAct_1617,
+ggplotly(gg_Volunteers_MainAct_678,
          tooltip = "text") %>% 
   layout(title = list(text = "Number of Volunteers by Main Activity, 2016 to 2017",
                       standoff = 10,
@@ -877,6 +1084,8 @@ ggplotly(gg_Volunteers_MainAct_1617,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+# 2016
+
 Volunteers_PaidStaff_2016 <- summarise(group_by(VCOSS_ACNC_16,
                                                 main_activity = main_activity_2016,
                                                 charity_size),
@@ -888,6 +1097,8 @@ Volunteers_PaidStaff_2016 <- summarise(group_by(VCOSS_ACNC_16,
 
 Volunteers_PaidStaff_2016$Year <- 2016
 
+# 2017
+
 Volunteers_PaidStaff_2017 <- summarise(group_by(VCOSS_ACNC_17,
                                                 main_activity, charity_size),
                                        paid_staff = sum(staff_full_time_2017,
@@ -898,13 +1109,27 @@ Volunteers_PaidStaff_2017 <- summarise(group_by(VCOSS_ACNC_17,
 
 Volunteers_PaidStaff_2017$Year <- 2017
 
-Volunteers_PaidStaff_1617 <- rbind(Volunteers_PaidStaff_2016, Volunteers_PaidStaff_2017)
+# 2018
+
+Volunteers_PaidStaff_2018 <- summarise(group_by(VCOSS_ACNC_18,
+                                                main_activity, charity_size),
+                                       paid_staff = sum(staff_full_time,
+                                                        staff_part_time,
+                                                        staff_casual,
+                                                        na.rm = TRUE),
+                                       volunteers = sum(as.numeric(staff_volunteers)))
+
+Volunteers_PaidStaff_2018$Year <- 2018
+
+Volunteers_PaidStaff_678 <- rbind(Volunteers_PaidStaff_2016,
+                                  Volunteers_PaidStaff_2017,
+                                  Volunteers_PaidStaff_2018)
 
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-gg_SocServ_Volunteers_PaidStaff_1617 <- ggplot(filter(Volunteers_PaidStaff_1617,
+gg_SocServ_Volunteers_PaidStaff_678 <- ggplot(filter(Volunteers_PaidStaff_678,
                                                       str_detect(main_activity,
                                                                  regex("social services",
                                                                        ignore_case = TRUE)))) +
@@ -934,7 +1159,7 @@ gg_SocServ_Volunteers_PaidStaff_1617 <- ggplot(filter(Volunteers_PaidStaff_1617,
                       range = c(4, 8)) +
   theme_minimal()
 
-ggplotly(gg_SocServ_Volunteers_PaidStaff_1617,
+ggplotly(gg_SocServ_Volunteers_PaidStaff_678,
          tooltip = "text") %>% 
   add_annotations(text = "equal number volunteers to paid staff",
                   textangle = -32.62,
@@ -948,7 +1173,7 @@ ggplotly(gg_SocServ_Volunteers_PaidStaff_1617,
                                     font = list(size = 14)),
                        itemclick = "toggleothers",
                        itemdoubleclick = "toggle"),
-         title = list(text = "Volunteers and Paid Staff Working for Social Services, 2016 to 2017",
+         title = list(text = "Volunteers and Paid Staff Working for Social Services, 2016 to 2018",
                       xref = "canvas",
                       x = 0.1),
          margin = list(t = 50,
@@ -964,18 +1189,18 @@ ggplotly(gg_SocServ_Volunteers_PaidStaff_1617,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-Volunteers_PaidStaff_1617_long <- pivot_longer(Volunteers_PaidStaff_1617,
+Volunteers_PaidStaff_678_long <- pivot_longer(Volunteers_PaidStaff_678,
                                                cols = c(paid_staff, volunteers),
                                                names_to = "staff_type",
                                                values_to = "staff_count")
 
-Volunteers_PaidStaff_1617_long <- mutate(group_by(Volunteers_PaidStaff_1617_long,
+Volunteers_PaidStaff_678_long <- mutate(group_by(Volunteers_PaidStaff_678_long,
                                                   main_activity, charity_size, Year),
                                          proportion = (staff_count / sum(staff_count)))
 
-activity <- unique(Volunteers_PaidStaff_1617_long$main_activity)
+activity <- unique(Volunteers_PaidStaff_678_long$main_activity)
 
-plot_ly(data = filter(Volunteers_PaidStaff_1617_long,
+plot_ly(data = filter(Volunteers_PaidStaff_678_long,
                       str_detect(main_activity,
                                  regex("social services",
                                        ignore_case = TRUE))),
@@ -1163,11 +1388,38 @@ packing_17 <- left_join(packing_17,
 
 packing_17$Year <- 2017
 
-packing_1617 <- rbind(packing_16, packing_17)
+
+## 2018
+
+VCOSS_ACNC_18_ordered <- arrange(VCOSS_ACNC_18, main_activity)
+
+VCOSS_ACNC_18_ordered <- cbind(VCOSS_ACNC_18_ordered,
+                               circleProgressiveLayout(VCOSS_ACNC_18_ordered$total_revenue))
+
+packing_18 <- circleLayoutVertices(layout = VCOSS_ACNC_18_ordered,
+                                   npoints = 0,
+                                   xysizecols = c("x", "y", "radius"),
+                                   sizetype = "area",
+                                   idcol = "charity_name")
+
+packing_18 <- left_join(packing_18,
+                        select(VCOSS_ACNC_18_ordered,
+                               charity_name, main_activity,
+                               total_revenue,
+                               radius),
+                        by = c("id" = "charity_name"))
+
+packing_18$Year <- 2018
+
+# binding
+
+packing_678 <- rbind(packing_16,
+                     packing_17,
+                     packing_18)
 
 ## plot
 
-gg_packing_16 <- ggplot(packing_1617) +
+gg_packing_678 <- ggplot(packing_678) +
   geom_point(aes(x = x,
                  y = y,
                  size = radius,
@@ -1194,7 +1446,7 @@ gg_packing_16 <- ggplot(packing_1617) +
   theme(panel.grid = element_blank(),
         axis.text = element_blank())
 
-ggplotly(gg_packing_16,
+ggplotly(gg_packing_678,
          tooltip = "text") %>% 
   layout(legend = list(title = list(text = "Main Activity",
                                     standoff = 10,
@@ -2840,7 +3092,7 @@ ggplotly(gg_Other_Staff_MainAct_1617,
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-gg_Other_Volunteers_PaidStaff_1617 <- ggplot(filter(Volunteers_PaidStaff_1617,
+gg_Other_Volunteers_PaidStaff_678 <- ggplot(filter(Volunteers_PaidStaff_678,
                                                     !str_detect(main_activity,
                                                                 regex("social services",
                                                                       ignore_case = TRUE)))) +
@@ -2875,7 +3127,7 @@ gg_Other_Volunteers_PaidStaff_1617 <- ggplot(filter(Volunteers_PaidStaff_1617,
                     values = FSSIQualPal(12)) +
   theme_minimal()
 
-ggplotly(gg_Other_Volunteers_PaidStaff_1617,
+ggplotly(gg_Other_Volunteers_PaidStaff_678,
          tooltip = "text") %>% 
   add_annotations(text = "equal number volunteers to paid staff",
                   textangle = -33.42,
@@ -2907,7 +3159,7 @@ ggplotly(gg_Other_Volunteers_PaidStaff_1617,
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 plot_ly() %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[1]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2921,7 +3173,7 @@ plot_ly() %>%
                                    "rgb(234, 231, 77"),
                         line = list(color = "#cecece",
                                     width = 1))) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[2]),
           labels = ~str_cleaner(staff_type),
           hovertemplate = paste(sep = "\n",
@@ -2931,7 +3183,7 @@ plot_ly() %>%
           values = ~staff_count,
           frame = ~Year,
           domain = list(row = 0, column = 1)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[3]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2941,7 +3193,7 @@ plot_ly() %>%
                                 activity[3],
                                 "<extra></extra>"),
           domain = list(row = 0, column = 2)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[4]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2951,7 +3203,7 @@ plot_ly() %>%
                                 activity[4],
                                 "<extra></extra>"),
           domain = list(row = 1, column = 0)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[5]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2961,7 +3213,7 @@ plot_ly() %>%
                                 activity[5],
                                 "<extra></extra>"),
           domain = list(row = 1, column = 1)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[6]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2971,7 +3223,7 @@ plot_ly() %>%
                                 activity[6],
                                 "<extra></extra>"),
           domain = list(row = 1, column = 2)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[7]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2981,7 +3233,7 @@ plot_ly() %>%
                                 activity[7],
                                 "<extra></extra>"),
           domain = list(row = 2, column = 0)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[8]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -2991,7 +3243,7 @@ plot_ly() %>%
                                 activity[8],
                                 "<extra></extra>"),
           domain = list(row = 2, column = 1)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[9]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -3001,7 +3253,7 @@ plot_ly() %>%
                                 activity[9],
                                 "<extra></extra>"),
           domain = list(row = 2, column = 2)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[10]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -3011,7 +3263,7 @@ plot_ly() %>%
                                 activity[10],
                                 "<extra></extra>"),
           domain = list(row = 3, column = 0)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[11]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
@@ -3021,7 +3273,7 @@ plot_ly() %>%
                                 activity[11],
                                 "<extra></extra>"),
           domain = list(row = 3, column = 1)) %>% 
-  add_pie(data = filter(Volunteers_PaidStaff_1617_long,
+  add_pie(data = filter(Volunteers_PaidStaff_678_long,
                         main_activity == activity[12]),
           labels = ~str_cleaner(staff_type),
           values = ~staff_count,
