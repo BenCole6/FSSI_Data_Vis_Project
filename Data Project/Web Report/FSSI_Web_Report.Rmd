@@ -365,6 +365,7 @@ To better understand the structure of the data, click on the tabs below to see t
 ### Preview of Datasets {.tabset .tabset-fade}
 
 Each of the below datasets are extracts of the ACNC datasets for Victorian charities.
+To view the complete cleaned datasets for all years, please see **Appendix 1c**
 
 #### 2016 ACNC Data
 
@@ -1216,7 +1217,7 @@ plot_ly(data = filter(Volunteers_PaidStaff_678_long,
                                  "rgb(77, 234, 229"),
                       line = list(color = "#cecece",
                                   width = 0.85))) %>% 
-  layout(title = list(text = "Volunteer Workforce Share for Social Service, 2016 to 2017",
+  layout(title = list(text = "Volunteer Workforce Share for Social Service, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -1453,7 +1454,7 @@ ggplotly(gg_packing_678,
                                     font = list(size = 14)),
                        itemclick = "toggleothers",
                        itemdoubleclick = "toggle"),
-         title = list(text = "Total Revenue for all Victorian Charities, 2016 to 2017",
+         title = list(text = "Total Revenue for all Victorian Charities, 2016 to 2018",
                       xref = "canvas",
                       x = 0.1),
          margin = list(t = 45, b = 10,
@@ -1948,7 +1949,7 @@ pl_OtherRevenue <- plot_ly(data = filter(Revenue678_long,
                       tickprefix = "$"),
          yaxis = list(title = list("Main Activity"),
                       categoryorder = "category descending"),
-         title = list(text = "Total Funding Sources by Main Activity, 2016 to 2017",
+         title = list(text = "Total Funding Sources by Main Activity, 2016 to 2018",
                       xref = "canvas",
                       x = 0.1),
          font = list(family = FSSIfont,
@@ -1975,7 +1976,7 @@ pl_SocServ_Revene <- plot_ly(data = filter(Revenue678_long,
                       tickprefix = "$"),
          yaxis = list(title = list("Main Activity"),
                       categoryorder = "category descending"),
-         title = list(text = "Total Funding Sources by Main Activity, 2016 to 2017",
+         title = list(text = "Total Funding Sources by Main Activity, 2016 to 2018",
                       xref = "canvas",
                       x = 0.1),
          font = list(family = FSSIfont,
@@ -2300,7 +2301,7 @@ gg_SocServ_DebtSurplus <- ggplot(SocServ_DebtSurplus_MainAct_678_long,
 
 ggplotly(gg_SocServ_DebtSurplus,
          tooltip = "text") %>% 
-  layout(title = list(text = "Count of Social Service Charities by Budget Status, 2016 - 2017",
+  layout(title = list(text = "Count of Social Service Charities by Budget Status, 2016 - 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -2422,7 +2423,7 @@ subplot(pl_SocServ_DebtSurplus_CharSize_678,
         pl_SocServ_DebtSurplus_CharSize_678_prop,
         nrows = 2,
         margin = 0.066) %>% 
-  layout(title = list(text = "Social Service Budget status by Charity Size, 2016 to 2017",
+  layout(title = list(text = "Social Service Budget status by Charity Size, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -2795,7 +2796,7 @@ gg_Grants_InOut_MainAct_678 <- ggplot(Grants_InOut_MainAct_678_long,
 
 ggplotly(gg_Grants_InOut_MainAct_678,
          tooltip = "text") %>% 
-  layout(title = list(text = "Grant Use for Social Service, 2016 to 2017",
+  layout(title = list(text = "Grant Use for Social Service, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -3034,6 +3035,68 @@ VCOSS_ACNC_17 <- VCOSS_ACNC_17[which(!(VCOSS_ACNC_17$abn %in% Invalid_ABNs_17$ab
 
 ```
 
+### 1c - Cleaned Datasets {.tabset .tabset-fade}
+
+#### 2016 ACNC Data
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+VCOSS_ACNC_16_prettycolnames <- str_cleaner(str_replace_all(colnames(VCOSS_ACNC_16),
+                                                            pattern = "_", replacement = " "))
+
+datatable(VCOSS_ACNC_16,
+          rownames = FALSE, colnames = VCOSS_ACNC_16_prettycolnames,
+          class = "display compact",
+          options = list(bFilter = TRUE,
+                         lengthChange = FALSE,
+                         scrollY = "400px",
+                         scrollX = "600px")) %>% 
+  formatStyle(fontSize = "12px",
+              columns = 0:ncol(VCOSS_ACNC_16),
+              mark = ",", interval = 3)
+
+```
+
+#### 2017 ACNC Data
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+VCOSS_ACNC_17_prettycolnames <- str_cleaner(str_replace_all(colnames(VCOSS_ACNC_17),
+                                                            pattern = "_", replacement = " "))
+
+datatable(VCOSS_ACNC_17,
+          rownames = FALSE, colnames = VCOSS_ACNC_16_prettycolnames,
+          class = "display compact",
+          options = list(bFilter = TRUE,
+                         lengthChange = FALSE,
+                         scrollY = "400px",
+                         scrollX = "600px")) %>% 
+  formatStyle(fontSize = "12px",
+              columns = 0:ncol(VCOSS_ACNC_16),
+              mark = ",", interval = 3)
+
+```
+
+#### 2018 ACNC Data
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+VCOSS_ACNC_18_prettycolnames <- str_cleaner(str_replace_all(colnames(VCOSS_ACNC_18),
+                                                            pattern = "_", replacement = " "))
+
+datatable(VCOSS_ACNC_18,
+          rownames = FALSE, colnames = VCOSS_ACNC_18_prettycolnames,
+          class = "display compact",
+          options = list(bFilter = TRUE,
+                         lengthChange = FALSE,
+                         scrollY = "400px",
+                         scrollX = "600px")) %>% 
+  formatStyle(fontSize = "12px",
+              columns = 0:ncol(VCOSS_ACNC_18),
+              mark = ",", interval = 3)
+
+```
+
 ## Appendix 2 - Extra Visualisations for Other Sectors
 
 ### 2a - Sector Size and Composition
@@ -3096,7 +3159,7 @@ gg_Sum_VIC_Others_678 <- ggplot(Sum_VIC_Others_678,
 
 ggplotly(gg_Sum_VIC_Others_678,
          tooltip = "text", shareY = FALSE) %>% 
-  layout(title = list(text = "Number of Charities in Other Sectors, 2016 to 2017",
+  layout(title = list(text = "Number of Charities in Other Sectors, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -3320,7 +3383,7 @@ gg_Other_Staff_MainAct_678 <- ggplot(Other_Staff_MainAct_678,
 
 ggplotly(gg_Other_Staff_MainAct_678,
          tooltip = "text") %>% 
-  layout(title = list(text = "Changes in Staff Counts by Work Loading in Other Sectors, 2016 to 2017",
+  layout(title = list(text = "Changes in Staff Counts by Work Loading in Other Sectors, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -3389,7 +3452,7 @@ ggplotly(gg_Other_Volunteers_PaidStaff_678,
                                     font = list(size = 14)),
                        itemclick = "toggleothers",
                        itemdoubleclick = "toggle"),
-         title = list(text = "Volunteers and Paid Staff Working for Other Sectors, 2016 to 2017",
+         title = list(text = "Volunteers and Paid Staff Working for Other Sectors, 2016 to 2018",
                       xref = "canvas",
                       x = 0.1),
          margin = list(t = 50,
@@ -3532,7 +3595,7 @@ plot_ly() %>%
                                 "<extra></extra>"),
           domain = list(row = 3, column = 2)) %>% 
   layout(grid = list(rows = 4, columns = 3),
-         title = list(text = "Volunteer Workforce Percentage for Other Sectors, 2016 to 2017",
+         title = list(text = "Volunteer Workforce Percentage for Other Sectors, 2016 to 2018",
                       standoff = 5,
                       xref = "canvas",
                       x = 0.1),
@@ -3577,7 +3640,7 @@ gg_Other_DebtSurplus <- ggplot(Other_DebtSurplus_MainAct_678_long,
 
 ggplotly(gg_Other_DebtSurplus,
          tooltip = "text") %>% 
-  layout(title = list(text = "Count of Other Sector Charities by Budget Status, 2016 - 2017",
+  layout(title = list(text = "Count of Other Sector Charities by Budget Status, 2016 - 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
@@ -3661,7 +3724,7 @@ gg_Grants_InOut_MainAct_678 <- ggplot(Grants_InOut_MainAct_678_long,
 
 ggplotly(gg_Grants_InOut_MainAct_678,
          tooltip = "text", shareX = FALSE) %>% 
-  layout(title = list(text = "Grant Use for Other Sectors, 2016 to 2017",
+  layout(title = list(text = "Grant Use for Other Sectors, 2016 to 2018",
                       standoff = 10,
                       xref = "canvas",
                       x = 0.1),
